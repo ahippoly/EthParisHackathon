@@ -5,12 +5,19 @@
       Button
     </v-btn>
 
-    <h4>Converse with</h4>
-    <input v-model="messageWith" type="text" />
-    <v-btn @click="startConversation">Start conversation</v-btn>
-    <v-btn @click="fetchConversationList">FetchConversation</v-btn>
+    <div class="flex-column">
+      <h4>Converse with</h4>
+      <input v-model="messageWith" type="text" />
+      <v-btn @click="startConversation">Start conversation</v-btn>
+      <v-btn @click="fetchConversationList">FetchConversation</v-btn>
+
+      <h4>messageToSend</h4>
+      <input v-model="messageToSend" type="text" />
+      <v-btn @click="sendMessage(messageToSend)">Send message</v-btn>
+    </div>
 
     <div>
+      <h3>Message list</h3>
       <p v-for="(message, index) in messageList" :key="index" class="largest">{{ message }}</p>
     </div>
   </section>
@@ -19,14 +26,16 @@
 <script setup lang="ts">
 import { connect } from '@wagmi/core'
 import { InjectedConnector } from '@wagmi/core/connectors/injected'
-import { Client } from '@xmtp/xmtp-js'
+import { Client, Conversation } from '@xmtp/xmtp-js'
 import { getEthersSigner } from '@/modules/ethers/walletClientToSigner'
 
 // import { AuthRequest, AuthType, ClaimRequest, ClaimType, SismoConnect, SismoConnectConfig } from '@sismo-core/sismo-connect-client'
 
 const messageWith = ref<string>('')
+const messageToSend = ref<string>('')
 const messageList = ref<Array<string>>([])
 let xmtpClient: Client | undefined = undefined
+let currentConversation: Conversation
 
 const ConnectToWallet = async () => {
   const connectResult = await connect({
@@ -47,9 +56,39 @@ const ConnectToWallet = async () => {
 
 const fetchConversationList = () => {}
 
-const startConversation = () => {}
+const startConversation = async () => {
+  console.log('🚀 ~ file: index.vue:55 ~ startConversation ~ xmtpClient:', xmtpClient)
+  if (!xmtpClient) return
+  const isOnProdNetwork = await xmtpClient.canMessage('0x3F11b27F323b62B159D2642964fa27C46C841897')
 
-const sendMessage = () => {}
+  if (!isOnProdNetwork) {
+    console.log('not on network')
+    return
+  }
+
+  currentConversation = await xmtpClient.conversations.newConversation(messageWith.value)
+
+  listenAndProcessNewMessageInConversation(currentConversation)
+  console.log('🚀 ~ file: index.vue:62 ~ startConversation ~ currentConversation:', currentConversation)
+}
+
+const sendMessage = async (message: string, conversation?: Conversation) => {
+  if (!conversation) conversation = currentConversation
+
+  await conversation.send(message)
+}
+
+const listenAndProcessNewMessageInConversation = async (conversation: Conversation) => {
+  if (!xmtpClient) return
+  for await (const message of await conversation.streamMessages()) {
+    // if (message.senderAddress === xmtpClient.address) {
+    //   // This message was sent from me
+    //   continue
+    // }
+
+    console.log(`New message from ${message.senderAddress}: ${message.content}`)
+  }
+}
 
 // Create the client with a `Signer` from your application
 
@@ -96,4 +135,9 @@ const sendMessage = () => {}
 // })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+</style>
