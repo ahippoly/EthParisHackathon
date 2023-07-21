@@ -15,7 +15,7 @@ export const useAlertStore = defineStore({
      * @param {boolean} persistant    controls if the alert will disappear on its own after some time or requires user input to do so (default: false)
      * @param {number}  durationInMs  if persistant is false, controls the time before disappearing in milliseconds (default: 5000)
      */
-    sendAlert(status: ALERT_STATUS, message: string, persistant = false, durationInMs = 5000) {
+    sendAlert(status: TAlertStatus, message: string, persistant = false, durationInMs = 5000) {
       this.alert = {
         status,
         message,
