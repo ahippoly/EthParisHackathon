@@ -57,14 +57,6 @@ export default defineNuxtConfig({
                   @import "@/assets/scss/variables/font-size.scss";
                   @import "@/assets/scss/variables/spacing.scss";
                   @import "@/assets/scss/_css-reset.scss";
-                  @import "@/assets/scss/_mixins.scss";
-                  @import "@/assets/scss/_stylesheet.scss";
-                  @import "@/assets/scss/_animations.scss";
-                  @import "@/assets/scss/_layouts.scss";
-                  @import "@/assets/scss/buttons/_buttons.scss";
-                  @import "@/assets/scss/_inputs.scss";
-                  @import "@/assets/scss/_text.scss";
-                  @import "@/assets/scss/_backgrounds.scss";
                   @import "@/assets/scss/global.scss";
                 `,
             },
