@@ -1,12 +1,24 @@
-export {}
+// enum version of ALERT_MODE type
+export enum AlertModes {
+  ALL = 'all',
+  NONE = 'none',
+  ON_SUCCESS = 'on-success',
+  ON_ERROR = 'on-error'
+}
+
+// enum version of ALERT_STATUS type
+export enum AlertStatuses {
+  SUCCESS = 'success',
+  ERRROR = 'error'
+}
 
 declare global {
-  type ALERT_MODE = 'all' | 'none' | 'on-success' | 'on-error'
+  type TAlertMode = AlertModes.ALL | AlertModes.NONE | AlertModes.ON_SUCCESS | AlertModes.ON_ERROR
 
-  type ALERT_STATUS = 'success' | 'error'
+  type TAlertStatus = AlertStatuses.ERRROR | AlertStatuses.SUCCESS
 
   interface IAlertControl {
-    mode: ALERT_MODE
+    mode: TAlertMode
     successMsg?: string
     errorMsg?: string
     persistant?: boolean
@@ -14,7 +26,7 @@ declare global {
   }
 
   interface IAlert {
-    status: ALERT_STATUS
+    status: TAlertStatus
     message: string
     persistant: boolean
     durationInMs: number

@@ -1,11 +1,16 @@
 <template>
-  <section id="page-layout">
-    <NuxtPage />
-  </section>
+  <v-app>
+    <section id="page-layout">
+      <NuxtPage />
+    </section>
+  </v-app>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import '@/modules/polyfills/polyfills'
+import { useTheme } from 'vuetify'
+
+useTheme()
 </script>
 
 <style lang="scss">
