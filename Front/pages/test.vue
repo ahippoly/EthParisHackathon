@@ -118,14 +118,6 @@ function sismoConnect() {
   // }
 
   // claim request for a proof of "Gitcoin Passport holders" group membership
-  const gitcoinPassportRequest: ClaimRequest = {
-    // id of the group gitcoin-passport-holders
-    // https://factory.sismo.io/groups-explorer?search=gitcoin-passport-holders
-    groupId: '0x1cde61966decb8600dfd0749bd371f12',
-    // users should have at least 15 as value in the group to claim the airdrop
-    value: 15,
-    claimType: ClaimType.GTE
-  }
 
   const maticHolders: ClaimRequest = {
     // id of the group gitcoin-passport-holders
@@ -141,7 +133,7 @@ function sismoConnect() {
   sismoConnect.request({
     claims: [maticHolders],
     namespace: 'sismo-edition',
-    callbackUrl: 'https://my-nft-drop.xyz/sismo-edition/claim-nft'
+    callbackUrl: 'http://localhost:3000/test'
   })
 }
 </script>
