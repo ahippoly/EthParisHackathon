@@ -1,0 +1,50 @@
+// must be explicitly imported for vitest unit testing
+import { defineStore } from 'pinia'
+import { ALERT_MODES, ALERT_STATUSES, DEFAULT_REQUEST_ERROR_MESSAGE, DEFAULT_REQUEST_SUCCESS_MESSAGE } from '@/types/constants'
+
+export const useAlertStore = defineStore({
+  id: 'alert',
+  state: () => ({
+    alert: null as IAlert | null
+  }),
+  actions: {
+    /**
+     *
+     * @param {string}  status        controls the type of alert ('success' | 'error')
+     * @param {string}  message       the message to display to the user
+     * @param {boolean} persistant    controls if the alert will disappear on its own after some time or requires user input to do so (default: false)
+     * @param {number}  durationInMs  if persistant is false, controls the time before disappearing in milliseconds (default: 5000)
+     */
+    sendAlert(status: ALERT_STATUS, message: string, persistant = false, durationInMs = 5000) {
+      this.alert = {
+        status,
+        message,
+        persistant,
+        durationInMs
+      }
+    },
+    /**
+     * Sends or not an alert based on the error and alertControl objects
+     * @param {IAlertControl} alertControl  the object that controls the behavior of the alert
+     * @param {IRequestError} error         an optional object representing the error if there was an error
+     */
+    handleRequestResult(alertControl?: IAlertControl | null, error?: IRequestError | null) {
+      // no alert required
+      if (!alertControl || alertControl.mode === ALERT_MODES.NONE) return
+      // there is an error and only successful request require alert
+      if (error && alertControl.mode !== ALERT_MODES.ALL && alertControl.mode !== ALERT_MODES.ON_ERROR) return
+      // there is no error and only failed request require alert
+      if (!error && alertControl.mode !== ALERT_MODES.ALL && alertControl.mode !== ALERT_MODES.ON_SUCCESS) return
+
+      const status = error ? ALERT_STATUSES.ERRROR : ALERT_STATUSES.SUCCESS
+      const message = error
+        ? alertControl.errorMsg || error.message || DEFAULT_REQUEST_ERROR_MESSAGE
+        : alertControl.successMsg || DEFAULT_REQUEST_SUCCESS_MESSAGE
+
+      this.sendAlert(status, message, alertControl.persistant, alertControl.durationInMs)
+    },
+    resetAlert() {
+      this.alert = null
+    }
+  }
+})

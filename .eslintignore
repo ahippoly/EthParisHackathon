@@ -1,0 +1,9 @@
+node_modules
+dist
+output
+.nuxt
+nuxt.config.ts
+**/*.json
+**/*.config.ts
+**/*.config.js
+auto-imports.d.ts
