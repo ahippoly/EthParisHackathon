@@ -1,0 +1,5 @@
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "tsconfig.json",
+  "exclude": ["node_modules", "build", "output", "dir", ".nuxt", "auto-imports.d.ts"]
+}

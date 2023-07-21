@@ -1,0 +1,31 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: white;
+}
+
+h1, h2, h3, h4, h5, h6, p, a, small {
+  color: $clr-text
+}
+
+.--bg {
+  background-color: $clr-background;
+
+  &.--primary {
+    background-color: $clr-primary;
+  }
+
+  &.--secondary {
+    background-color: $clr-secondary;
+  }
+}
+
+.--italic {
+  font-style: italic;
+}
+
+.--bold {
+  font-weight: bold;
+}
