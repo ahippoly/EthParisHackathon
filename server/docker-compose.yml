@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  dev-db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dev-db
+    ports:
+      - "27021:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: vmc
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    networks:
+      - vmc
+  test-db:
+    image: mongo:latest
+    container_name: test-db
+    ports:
+      - "27022:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: vmc
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    networks:
+      - vmc
+
+networks:
+  vmc:
+

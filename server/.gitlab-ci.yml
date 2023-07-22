@@ -1,0 +1,111 @@
+stages:
+  - test
+  - build
+  - deploy
+
+
+##########
+# TESTS  #
+##########
+
+# runs all unit tests
+unit-test:
+  image: node:18
+  stage: test
+  before_script:
+    - yarn install
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - cp $DEVELOPMENT_ENV ./envs/.development.env
+    - yarn test:unit
+
+
+##########
+# BUILD  #
+##########
+
+# builds application using staging environment variables
+build-staging-application:
+  image: node:16
+  stage: build
+  environment: staging
+  before_script:
+    - yarn install
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - cp $STAGING_ENV ./envs/.staging.env
+    - yarn build:staging
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - dist
+      - envs
+  only:
+    - staging
+
+# builds application using production environment variables
+build-prod-application:
+  image: node:16
+  stage: build
+  environment: production
+  before_script:
+    - yarn install
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - cp $PRODUCTION_ENV ./envs/.production.env
+    - yarn build:prod
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - dist
+      - envs
+  only:
+    - master
+
+
+##########
+# DEPLOY #
+##########
+
+# deploys application to staging enviroment
+deploy-staging:
+  image: alpine
+  stage: deploy
+  environment: staging
+  script:
+    - apk add --no-cache rsync openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/server_key
+    - chmod 400 ~/.ssh/server_key
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - rsync -e "ssh -i ~/.ssh/server_key" --rsync-path="sudo rsync" -rav --delete dist/ ec2-user@13.39.69.160:vmc-api-v2/dist
+    - rsync -e "ssh -i ~/.ssh/server_key" --rsync-path="sudo rsync" -rav --delete envs/ ec2-user@13.39.69.160:vmc-api-v2/envs
+    - rsync -e "ssh -i ~/.ssh/server_key" --rsync-path="sudo rsync" -rav --delete package.json ec2-user@13.39.69.160:vmc-api-v2/
+    - ssh -i ~/.ssh/server_key ec2-user@13.39.69.160 "cd vmc-api-v2 && yarn install && sudo pm2 restart 'vmc-api'"
+  only:
+    - staging
+
+# deploys application to production enviroment
+deploy-production:
+  image: alpine
+  stage: deploy
+  when: manual
+  environment: production
+  script:
+    - apk add --no-cache rsync openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/server_key
+    - chmod 400 ~/.ssh/server_key
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - rsync -e "ssh -i ~/.ssh/server_key" --rsync-path="sudo rsync" -rav --delete dist/ ec2-user@15.188.138.180:vmc-api-v2/dist
+    - rsync -e "ssh -i ~/.ssh/server_key" --rsync-path="sudo rsync" -rav --delete envs/ ec2-user@15.188.138.180:vmc-api-v2/envs
+    - rsync -e "ssh -i ~/.ssh/server_key" --rsync-path="sudo rsync" -rav --delete package.json ec2-user@15.188.138.180:vmc-api-v2/
+    - ssh -i ~/.ssh/server_key ec2-user@15.188.138.180 "cd vmc-api-v2 && yarn install && sudo pm2 restart 'vmc-api'"
+  only:
+    - master
