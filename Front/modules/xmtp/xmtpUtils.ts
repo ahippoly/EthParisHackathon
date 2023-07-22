@@ -1,4 +1,4 @@
-import { Client, Conversation, DecodedMessage, Message } from '@xmtp/xmtp-js'
+import { Client, Conversation, DecodedMessage, Message, Signer } from '@xmtp/xmtp-js'
 import { getEthersSigner } from '@/modules/ethers/walletClientToSigner'
 
 let isListeningNewConversation = false
@@ -18,8 +18,15 @@ export const getConversation = async (client: Client, contactedAdress: string): 
   return newConversation
 }
 
+export const getMessagesFromConversation = async (conversation: Conversation): Promise<DecodedMessage[]> => {
+  return await conversation.messages()
+}
+
 export const listenAndProcessNewMessageInConversation = async (conversation: Conversation, messageListToFeed: Ref<DecodedMessage[]>) => {
   if (messageListenerActiveByConversation[conversation.peerAddress]) return
+  const existingMessages = await getMessagesFromConversation(conversation)
+  messageListToFeed.value = existingMessages
+
   messageListenerActiveByConversation[conversation.peerAddress] = true
 
   for await (const message of await conversation.streamMessages()) {
@@ -65,4 +72,6 @@ export const stopListeningMessageForAllConversation = () => {
 
 export const sendMessage = (conversation: Conversation, message: string) => {}
 
-export const createClient = (cryptedPrivateKey: string, secretPhrase: string): Client => {}
+export const createClient = async (wallet: Signer): Promise<Client> => {
+  return await Client.create(wallet)
+}

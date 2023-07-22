@@ -1,4 +1,5 @@
 import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-datas'
+import { exampleWallet1, exampleWallet2, exampleWallet3, exampleWallet4, exampleWallet5 } from '~~/mockups/ethers/wallet'
 
 export const loggedUser: IUser = {
   id: 'some-cismo-id',
@@ -40,7 +41,8 @@ export const relevantUsers: IUser[] = [
       interests: [Interests.ALGORAND],
       skills: [Skills.ADMINISTRATIVE_SUPPORT, Skills.BUSINESS_WRITING]
     },
-    openOnlyToThoseMatchingSearch: true
+    openOnlyToThoseMatchingSearch: true,
+    xmtpPublicAddress: exampleWallet1.address
   },
   {
     id: 'some-cismo-id-2',
@@ -60,7 +62,8 @@ export const relevantUsers: IUser[] = [
       interests: [Interests.DAVE_RAMSEY, Interests.WEB_DEV, Interests.FULL_STACK_DEV],
       skills: [Skills.WEB_DEVELOPMENT, Skills.FRONT_END_DEVELOPMENT, Skills.FULL_STACK_DEVELOPMENT]
     },
-    openOnlyToThoseMatchingSearch: true
+    openOnlyToThoseMatchingSearch: true,
+    xmtpPublicAddress: exampleWallet2.address
   },
   {
     id: 'some-cismo-id-3',
@@ -80,7 +83,8 @@ export const relevantUsers: IUser[] = [
       interests: [Interests.DAVE_RAMSEY, Interests.WEB_DEV, Interests.FULL_STACK_DEV],
       skills: [Skills.WEB_DEVELOPMENT, Skills.FRONT_END_DEVELOPMENT, Skills.FULL_STACK_DEVELOPMENT]
     },
-    openOnlyToThoseMatchingSearch: true
+    openOnlyToThoseMatchingSearch: true,
+    xmtpPublicAddress: exampleWallet3.address
   },
   {
     id: 'some-cismo-id-4',
@@ -100,7 +104,8 @@ export const relevantUsers: IUser[] = [
       interests: [Interests.DAVE_RAMSEY, Interests.WEB_DEV, Interests.FULL_STACK_DEV],
       skills: [Skills.WEB_DEVELOPMENT, Skills.FRONT_END_DEVELOPMENT, Skills.FULL_STACK_DEVELOPMENT]
     },
-    openOnlyToThoseMatchingSearch: true
+    openOnlyToThoseMatchingSearch: true,
+    xmtpPublicAddress: exampleWallet4.address
   },
   {
     id: 'some-cismo-id-5',
@@ -120,6 +125,7 @@ export const relevantUsers: IUser[] = [
       interests: [Interests.DAVE_RAMSEY, Interests.WEB_DEV, Interests.FULL_STACK_DEV],
       skills: [Skills.WEB_DEVELOPMENT, Skills.FRONT_END_DEVELOPMENT, Skills.FULL_STACK_DEVELOPMENT]
     },
-    openOnlyToThoseMatchingSearch: true
+    openOnlyToThoseMatchingSearch: true,
+    xmtpPublicAddress: exampleWallet5.address
   }
 ]

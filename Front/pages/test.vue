@@ -29,6 +29,7 @@
 <script setup lang="ts">
 import { Client, Conversation } from '@xmtp/xmtp-js'
 import { ethers } from 'ethers'
+import { sismoConnect } from '@/modules/sismo/sismoConnect'
 
 const messageWith = ref<string>('')
 const messageToSend = ref<string>('')

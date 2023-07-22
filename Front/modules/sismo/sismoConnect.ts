@@ -3,7 +3,8 @@ import { AuthRequest, AuthType, ClaimRequest, ClaimType, SismoConnect, SismoConn
 export const sismoConnect = () => {
   const config: SismoConnectConfig = {
     // you will need to get an appId from the Factory
-    appId: '0x0953a6430e3f1a3e15ebaa4c898f6071'
+    appId: '0x0953a6430e3f1a3e15ebaa4c898f6071',
+    displayRawResponse: true
   }
 
   const sismoConnect = SismoConnect({
@@ -35,6 +36,7 @@ export const sismoConnect = () => {
 
   // redirect users to the Vault App to generate proofs based on the requirements
   // expressed in the auth and claim requests
+
   sismoConnect.request({
     claims: [maticHolders],
     namespace: 'sismo-edition',

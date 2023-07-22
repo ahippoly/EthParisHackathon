@@ -11,6 +11,7 @@ declare global {
     goals: string[]
     profile?: IUserProfile
     search?: IUserSearch
+    xmtpPublicAddress: string
     openOnlyToThoseMatchingSearch: boolean
   }
 
