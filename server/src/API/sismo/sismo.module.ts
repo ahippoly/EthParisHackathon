@@ -8,5 +8,4 @@ import { SismoController } from './sismo.controller'
   providers: [SismoService],
   controllers: [SismoController],
 })
-
 export class SismoModule {}

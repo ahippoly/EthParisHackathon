@@ -6,7 +6,7 @@
     <section class="content">
       <h1 class="main-title text-h1">HARPOS</h1>
       <h2 class="sub-title text-subtitle-1">Communication between holders</h2>
-      <link-btn id="find-btn" to="/profile">Find with like-minded partners</link-btn>
+      <link-btn id="find-btn" to="/profile">Find and connect with like-minded partners</link-btn>
     </section>
   </section>
 </template>
@@ -15,9 +15,8 @@
 const isLoggedIn = computed(() => useSessionStore().isLoggedIn)
 
 function logIn() {
-  useAPI().users.logIn('THIS IS TEMPORARY!!!!!!!!!!!!!!!!!!!!!!!!!')
+  useAPI().users.logIn('some-id-mask')
 }
-
 function logOut() {
   useAPI().users.logOut()
 }

@@ -3,7 +3,7 @@ import { UserRepository } from '@/repositories'
 import { User, UserBlueprint } from '@/schemas/user'
 import { TUserProfile, UserProfile } from '@/schemas/user/pojos/user-profile'
 import { UserSearch } from '@/schemas/user/pojos/user-search'
-import { ForbiddenException, Injectable } from '@nestjs/common'
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
 
 @Injectable()
 export class UsersService {
@@ -77,12 +77,17 @@ export class UsersService {
     return user
   }
 
-  public async updateCryptedPrivateKey(idMask: string, cryptedKey: string): Promise<boolean> {
+  public async updateCryptedPrivateKey(idMask: string, cryptedKey: string, publicAddress: string): Promise<boolean> {
     const user = await this.getUserByIdMask(idMask)
 
+    user.xmtpPublicAddress = publicAddress
     user.xmtpCryptedPrivateKey = cryptedKey
 
     return await this.userRepository.updateAsIs(user)
+  }
+
+  public async getUserById(id: string): Promise<User> {
+    return this.userRepository.findById(id).getOrThrow(new NotFoundException('User not found'))
   }
 
   public async getUserByIdMask(idMask: string): Promise<User> {

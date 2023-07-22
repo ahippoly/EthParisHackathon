@@ -57,6 +57,14 @@ export class UsersEndpoints {
     useSessionStore().logOut()
   }
 
+  static async getUserById(id: string): Promise<IRequestResult<User>> {
+    const { data, error } = await useRequest().get<IUser>(UsersEndpoints.path + '/by-id?id=' + id)
+
+    if (!data || error) return { data: null, error }
+
+    return { data: User.fromIUser(data), error: null }
+  }
+
   static async getUserByXmtpAddress(address: string): Promise<IRequestResult<User>> {
     const { data, error } = await useRequest().get<IUser>(UsersEndpoints.path + '/by-address?address=' + address)
 
@@ -99,9 +107,9 @@ export class UsersEndpoints {
     return { data: User.fromIUser(data), error: null }
   }
 
-  static async updateXmtpCryptedPrivateKey(idMask: string, newCryptedKey: string): Promise<IRequestResult<boolean>> {
+  static async updateXmtpCryptedPrivateKey(idMask: string, newCryptedKey: string, publicAddress: string): Promise<IRequestResult<boolean>> {
     const { data, error } = await useRequest().patch<boolean>(
-      UsersEndpoints.path + `/xmtp-crypted-private-key?id-mask=${idMask}&crypted-key=${newCryptedKey}`
+      UsersEndpoints.path + `/xmtp-crypted-private-key?id-mask=${idMask}&crypted-key=${newCryptedKey}&public-address=${publicAddress}`
     )
 
     if (data === null || error) return { data: null, error }
