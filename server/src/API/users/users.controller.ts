@@ -27,6 +27,11 @@ export class UsersController {
     return await this.usersService.getUserByIdMask(idMask)
   }
 
+  @Get('by-id')
+  public async getUserById(@Query('id') id: string): Promise<User> {
+    return await this.usersService.getUserById(id)
+  }
+
   @Get('by-address')
   public async getUserByXmtpAddress(@Query('address') address: string): Promise<User> {
     return await this.usersService.getUserByXmtpAddress(address)
@@ -60,7 +65,11 @@ export class UsersController {
   }
 
   @Patch('xmtp-crypted-private-key')
-  public async updateXmtpCryptedPrivateKey(@Query('id-mask') idMask: string, @Query('crypted-key') cryptedKey: string): Promise<boolean> {
-    return await this.usersService.updateCryptedPrivateKey(idMask, cryptedKey)
+  public async updateXmtpCryptedPrivateKey(
+    @Query('id-mask') idMask: string,
+    @Query('crypted-key') cryptedKey: string,
+    @Query('public-address') publicAddress: string
+  ): Promise<boolean> {
+    return await this.usersService.updateCryptedPrivateKey(idMask, cryptedKey, publicAddress)
   }
 }

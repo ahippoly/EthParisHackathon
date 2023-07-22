@@ -139,7 +139,6 @@ function updateSearch(user: User) {
       content: '';
       height: 1px;
       width: 100%;
-      background-color: $clr-text;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -170,7 +169,6 @@ function updateSearch(user: User) {
 
     .--input {
       width: 100%;
-      color: $clr-text !important;
     }
   }
 }
