@@ -4,7 +4,6 @@ import { InjectModel } from 'nestjs-typegoose'
 import { ReturnModelType } from '@typegoose/typegoose'
 import { AbstractBaseRepository } from '@/repositories/abstract.repository'
 import { UserBlueprint } from '@Schemas/user/user.blueprint'
-import { InstantiatingDataWrapper } from '@/common/classes'
 
 @Injectable()
 export class UserRepository extends AbstractBaseRepository<User, UserBlueprint> {
@@ -13,9 +12,7 @@ export class UserRepository extends AbstractBaseRepository<User, UserBlueprint> 
   }
 
   public async findByIdMask(idMask: string): Promise<User> {
-    const data = this.model.findOne({ _idMask: idMask }).lean().exec() as Promise<User>
-
-    return await InstantiatingDataWrapper.fromData(data).getOrThrow(new NotFoundException('User not found'))
+    return await this.findBy({ _idMask: idMask }).getOrThrow(new NotFoundException('User not found'))
   }
 
   public async findByXmtpAddress(address: string): Promise<User> {
