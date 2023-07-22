@@ -1,6 +1,6 @@
 <template>
   <section id="profile" class="--page">
-    <h1 class="main-title text-h4">My Profile</h1>
+    <h1 class="main-title text-h4 text-white">{{ isUpdatePage ? 'My Profile' : 'Create Account' }}</h1>
 
     <section id="profile-form">
       <div class="presentation --block">
@@ -129,7 +129,8 @@
     ></v-checkbox>
 
     <!-- SUBMIT -->
-    <v-btn class="--submit" variant="elevated" @click="saveProfile()">Save profile</v-btn>
+    <v-btn v-if="isUpdatePage" class="--submit" variant="elevated" @click="saveProfile()">Save profile</v-btn>
+    <v-btn v-else class="--submit" variant="elevated" @click="register()">Register</v-btn>
     <v-dialog v-model="passPhraseDialogOpened">
       <v-card>
         <v-card-text class="pass-phrase-section">
@@ -152,7 +153,8 @@
             @update:model-value="passPhraseHasError"
           ></v-text-field>
 
-          <v-btn class="--submit" variant="elevated" @click="saveProfile(true)"> Save profile </v-btn>
+          <v-btn v-if="isUpdatePage" class="--submit" variant="elevated" @click="saveProfile()">Update profile</v-btn>
+          <v-btn v-else class="--submit" variant="elevated" @click="register()">Register</v-btn>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -168,7 +170,7 @@ definePageMeta({ middleware: ['is-logged-in'] })
 
 type TProfileFormData = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & IUserProfile
 
-const props = defineProps({
+defineProps({
   isUpdatePage: {
     type: Boolean,
     default: true
@@ -253,17 +255,18 @@ const errors = reactive<Record<keyof TProfileFormData, { message: string; valida
 })
 
 /* >==== SAVE & UPDATE METHODS ====> */
-function saveProfile(register?: boolean) {
+function register() {
   if (!preCheckProfile()) return
-  if (!props.isUpdatePage) {
-    if (passPhraseHasError()) return
-    passPhraseDialogOpened.value = true
-  }
 
+  if (passPhraseHasError()) return
+  passPhraseDialogOpened.value = true
+  registerUser()
+}
+
+function saveProfile() {
+  if (!preCheckProfile()) return
   // if not, save
-  // if (!user) return
-  if (props.isUpdatePage) updateUser()
-  else if (register) registerUser()
+  updateUser()
 }
 
 function passPhraseHasError() {
@@ -328,8 +331,10 @@ async function registerUser() {
   align-items: center;
 
   .main-title {
-    margin-bottom: 80px;
+    margin-bottom: 50px;
     padding-bottom: 20px;
+    width: 100%;
+    text-align: left;
     position: relative;
 
     &::after {
