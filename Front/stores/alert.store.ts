@@ -1,7 +1,7 @@
 // must be explicitly imported for vitest unit testing
 import { defineStore } from 'pinia'
 import { DEFAULT_REQUEST_ERROR_MESSAGE, DEFAULT_REQUEST_SUCCESS_MESSAGE } from '@/types/APIs/requests'
-import { AlertModes, AlertStatuses } from '@/types/stores/alert-store'
+import { AlertModes, AlertStatuses } from '@/assets/ts/enums/store'
 
 export const useAlertStore = defineStore({
   id: 'alert',

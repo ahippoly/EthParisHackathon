@@ -32,7 +32,7 @@ export class UsersController {
     return await this.usersService.getUserByXmtpAddress(address)
   }
 
-  @Get('all/by-address')
+  @Post('all/by-address')
   public async getAllUsersByXmtpAddress(@Body() { addresses }: XmtpAddressesRequest): Promise<User[]> {
     return await this.usersService.getAllUsersByXmtpAddress(addresses)
   }

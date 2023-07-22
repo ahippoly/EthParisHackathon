@@ -3,12 +3,13 @@ import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-data
 export class User {
   /* eslint-disable prettier/prettier */
   private _id = ''
-  private _idMask?: string
   private _name = ''
   private _description = ''
   private _goals: string[] = []
   private _profile?: UserProfile
   private _search?: UserSearch
+  private _xmtpPublicAddress = ''
+  private _xmtpCryptedPrivateKey?: string
   private _openOnlyToThoseMatchingSearch = true
   /* eslint-enable prettier/prettier */
 
@@ -18,14 +19,15 @@ export class User {
   public static fromIUser(user: IUser): User {
     const userInstance = new User()
 
-    userInstance._id = user.id
-    userInstance._idMask = user.idMask
+    userInstance._id = user._id
     userInstance.setName(user.name)
     userInstance.setDescription(user.description)
     userInstance.setGoals(user.goals)
     if (user.profile) userInstance.setProfile(UserProfile.fromIUserProfile(user.profile))
     if (user.search) userInstance.setSearch(UserSearch.fromIUserSearch(user.search))
     userInstance.setOpenToAllState(!user.openOnlyToThoseMatchingSearch)
+    userInstance.setXmtpPublicAddress(user.xmtpPublicAddress)
+    userInstance.setXmtpCryptedPrivateKey(user.xmtpCryptedPrivateKey)
 
     return userInstance
   }
@@ -34,13 +36,14 @@ export class User {
     const userInstance = new User()
 
     userInstance._id = user._id as string
-    userInstance._idMask = user._idMask as string | undefined
     userInstance.setName(user._name as string)
     userInstance.setDescription(user._description as string)
     userInstance.setGoals(user._goals as string[])
     if (user._profile) userInstance.setProfile(UserProfile.fromRawUserProfile(user._profile as Record<string, unknown>))
     if (user._search) userInstance.setSearch(UserSearch.fromRawUserSearch(user._search as Record<string, unknown>))
     userInstance.setOpenToAllState(!user._openOnlyToThoseMatchingSearch as boolean)
+    userInstance.setXmtpPublicAddress(user._xmtpPublicAddress as string)
+    userInstance.setXmtpCryptedPrivateKey(user._xmtpCryptedPrivateKey as string | undefined)
 
     return userInstance
   }
@@ -48,9 +51,6 @@ export class User {
   /* >==== GETTERS & SETTERS ====> */
   get id(): string {
     return this._id
-  }
-  get idMask(): string | undefined {
-    return this._idMask
   }
   get name(): string {
     return this._name
@@ -70,7 +70,12 @@ export class User {
   get openOnlyToThoseMatchingSearch(): boolean {
     return this._openOnlyToThoseMatchingSearch
   }
-
+  get xmtpPublicAddress(): string {
+    return this._xmtpPublicAddress
+  }
+  get xmtpCryptedPrivateKey(): string | undefined {
+    return this._xmtpCryptedPrivateKey
+  }
   public setName(name: string): void {
     this._name = name
   }
@@ -88,6 +93,12 @@ export class User {
   }
   public setOpenToAllState(openToAll: boolean): void {
     this._openOnlyToThoseMatchingSearch = !openToAll
+  }
+  public setXmtpPublicAddress(publicAddress: string): void {
+    this._xmtpPublicAddress = publicAddress
+  }
+  public setXmtpCryptedPrivateKey(privatKey?: string): void {
+    this._xmtpCryptedPrivateKey = privatKey
   }
 
   /* >==== METHODS ====> */

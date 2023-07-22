@@ -1,7 +1,11 @@
 import { User } from '@/assets/ts/classes/user'
 
-export type TRegisterUserPayload = Omit<IUser, 'id' | 'idMask' | 'profil' | 'search'> & { profileData: IUserProfile }
-export type TUpdateUserPayload = Omit<IUser, 'id' | 'idMask' | 'profil' | 'search'> & { profileData: IUserProfile }
+export type TRegisterUserPayload = Omit<IUser, '_id' | 'profil' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
+  profileData: IUserProfile
+}
+export type TUpdateUserPayload = Omit<IUser, '_id' | 'profil' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
+  profileData: IUserProfile
+}
 
 export class UsersEndpoints {
   static readonly path = '/users'
@@ -13,7 +17,7 @@ export class UsersEndpoints {
     user: TRegisterUserPayload
   ): Promise<IRequestResult<User>> {
     // register to api
-    const { data, error } = await useRequest().post<IUser>(UsersEndpoints.path + '/register', {
+    const { data, error } = await useRequest().post<IUser>(UsersEndpoints.path, {
       body: {
         ...user,
         idMask,
@@ -23,6 +27,8 @@ export class UsersEndpoints {
     })
 
     if (!data || error) return { data: null, error }
+
+    console.log({ data })
 
     // get new User back as pojos
     const registedUser = User.fromIUser(data)
@@ -60,7 +66,7 @@ export class UsersEndpoints {
   }
 
   static async getAllUsersByXmtpAddress(addresses: string[]): Promise<IRequestResult<User[]>> {
-    const { data, error } = await useRequest().get<IUser[]>(UsersEndpoints.path + '/all/by-address', { body: { addresses } })
+    const { data, error } = await useRequest().post<IUser[]>(UsersEndpoints.path + '/all/by-address', { body: { addresses } })
 
     if (!data || error) return { data: null, error }
 

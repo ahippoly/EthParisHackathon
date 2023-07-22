@@ -4,13 +4,14 @@ export {}
 
 declare global {
   interface IUser {
-    id: string
-    idMask?: string
+    _id: string
     name: string
     description: string
     goals: string[]
     profile?: IUserProfile
     search?: IUserSearch
+    xmtpPublicAddress: string
+    xmtpCryptedPrivateKey?: string
     openOnlyToThoseMatchingSearch: boolean
   }
 

@@ -1,16 +1,7 @@
 // enum version of ALERT_MODE type
-export enum AlertModes {
-  ALL = 'all',
-  NONE = 'none',
-  ON_SUCCESS = 'on-success',
-  ON_ERROR = 'on-error'
-}
+import { AlertModes, AlertStatuses } from '@/assets/ts/enums/store'
 
-// enum version of ALERT_STATUS type
-export enum AlertStatuses {
-  SUCCESS = 'success',
-  ERRROR = 'error'
-}
+export {}
 
 declare global {
   type TAlertMode = AlertModes.ALL | AlertModes.NONE | AlertModes.ON_SUCCESS | AlertModes.ON_ERROR

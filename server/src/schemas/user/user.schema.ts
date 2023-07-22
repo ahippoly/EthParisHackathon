@@ -1,13 +1,13 @@
 import { modelOptions, prop, Severity } from '@typegoose/typegoose'
 import { TimestampedDBDocument } from '@/schemas/db-document.abstract-schema'
-import { Expose, Type } from 'class-transformer'
+import { Exclude, Expose, Type } from 'class-transformer'
 import { TUserProfile, UserProfile } from './pojos/user-profile'
 import { UserSearch } from './pojos/user-search'
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW }, schemaOptions: { timestamps: true } })
 export class User extends TimestampedDBDocument {
   /* eslint-disable prettier/prettier */
-  @prop({ required: true, _id: false })   @Expose({ name: '_idMask' })                            protected _idMask: string
+  @prop({ required: true, _id: false })   @Exclude()                                              protected _idMask: string
   @prop({ required: true, _id: false })   @Expose({ name: 'xmtpPublicAddress' })                  protected _xmtpPublicAddress: string
   @prop({ required: true, _id: false })   @Expose({ name: 'xmtpCryptedPrivateKey' })              protected _xmtpCryptedPrivateKey: string
   @prop({ required: true, _id: false })   @Expose({ name: 'name' })                               protected _name: string
