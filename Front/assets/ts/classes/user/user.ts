@@ -112,21 +112,23 @@ export class UserProfile implements IUserProfile {
   private _interests: Interests[]
   private _langs: Langs[]
   private _skills: Skills[]
+  private _balance: number
 
-  constructor(country: Countries, langs: Langs[], interests: Interests[], skills: Skills[]) {
+  constructor(country: Countries, langs: Langs[], interests: Interests[], skills: Skills[], balance: number) {
     this._country = country
     this._langs = langs
     this._interests = interests
     this._skills = skills
+    this._balance = balance
   }
 
   public static fromIUserProfile(userProfile: IUserProfile): UserProfile {
-    return new UserProfile(userProfile.country, userProfile.langs, userProfile.interests, userProfile.skills)
+    return new UserProfile(userProfile.country, userProfile.langs, userProfile.interests, userProfile.skills, userProfile.balance)
   }
 
   public static fromRawUserProfile(userProfile: Record<string, unknown>): UserProfile {
     // @ts-ignore
-    return new UserProfile(userProfile._country, userProfile._langs, userProfile._interests, userProfile._skills)
+    return new UserProfile(userProfile._country, userProfile._langs, userProfile._interests, userProfile._skills, userProfile._balance)
   }
 
   /* >==== GETTERS & SETTERS ====> */
@@ -142,6 +144,9 @@ export class UserProfile implements IUserProfile {
   get skills(): Skills[] {
     return this._skills
   }
+  get balance(): number {
+    return this._balance
+  }
 
   public setCountry(country: Countries): void {
     this._country = country
@@ -154,6 +159,9 @@ export class UserProfile implements IUserProfile {
   }
   public setSkills(skills: Skills[]): void {
     this._skills = skills
+  }
+  public setBalance(balance: number): void {
+    this._balance = balance
   }
 }
 
