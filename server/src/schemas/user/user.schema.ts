@@ -1,11 +1,11 @@
 import { modelOptions, prop, Severity } from '@typegoose/typegoose'
-import { SoftDeletableDBDocument } from '@/schemas/db-document.abstract-schema'
+import { TimestampedDBDocument } from '@/schemas/db-document.abstract-schema'
 import { Expose, Type } from 'class-transformer'
-import { UserProfile } from './pojos/user-profile'
+import { TUserProfile, UserProfile } from './pojos/user-profile'
 import { UserSearch } from './pojos/user-search'
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW }, schemaOptions: { timestamps: true } })
-export class User extends SoftDeletableDBDocument {
+export class User extends TimestampedDBDocument {
   /* eslint-disable prettier/prettier */
   @prop({ required: true, _id: false })   @Expose({ name: '_id' })                                protected _idMask: string
   @prop({ required: true, _id: false })   @Expose({ name: 'xmtpPublicAddress' })                  protected _xmtpPublicAddress: string
@@ -26,14 +26,7 @@ export class User extends SoftDeletableDBDocument {
     super()
   }
 
-  public static of(
-    idMask: string,
-    xmtpPublicAddress: string,
-    name: string,
-    description: string,
-    goals: string[],
-    profileData: { country: string; langs: string[]; interests: string[]; skills: string[] }
-  ): User {
+  public static of(idMask: string, xmtpPublicAddress: string, name: string, description: string, goals: string[], profileData: TUserProfile): User {
     const user = new User()
 
     user._idMask = idMask

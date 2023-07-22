@@ -11,6 +11,10 @@ export class UserRepository extends AbstractBaseRepository<User, UserBlueprint> 
     super(model, User)
   }
 
+  public async findByIdMask(idMask: string): Promise<User> {
+    return await this.findBy({ _idMask: idMask }).getOrThrow(new NotFoundException('User not found'))
+  }
+
   public async findByXmtpAddress(address: string): Promise<User> {
     return await this.findBy({ _xmtpPublicAddress: address }).getOrThrow(new NotFoundException('User not found'))
   }

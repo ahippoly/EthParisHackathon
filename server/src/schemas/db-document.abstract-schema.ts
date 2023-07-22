@@ -1,4 +1,4 @@
-import { Exclude, Expose, Transform } from 'class-transformer'
+import { Exclude, Transform } from 'class-transformer'
 import { prop } from '@typegoose/typegoose'
 import * as mongoose from 'mongoose'
 import { objectIdToString } from '@Common/class-operations/transforms'
@@ -6,7 +6,7 @@ import { objectIdToString } from '@Common/class-operations/transforms'
 export abstract class DBDocument {
   @prop({ type: mongoose.Types.ObjectId })
   @Transform(objectIdToString)
-  @Expose()
+  @Exclude()
   public readonly _id: mongoose.Types.ObjectId
 
   @Exclude()
