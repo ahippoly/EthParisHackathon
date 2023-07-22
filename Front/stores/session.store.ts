@@ -18,14 +18,14 @@ export const useSessionStore = defineStore({
       this.user = user
     },
     getUser() {
-      return this.user ? User.of(this.user as IUser) : null
+      return this.user ? User.fromRawUser(this.user) : null
     },
     logOut() {
       this.user = null
     }
   },
   getters: {
-    isLoggedIn: (state) => !!state.user,
+    isLoggedIn: (state) => !!state.user
   },
   persist: true
 })
