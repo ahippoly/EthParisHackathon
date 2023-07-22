@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  harpos-database:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: harpos-database
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${DB_ROOT_USER}"
+      MONGO_INITDB_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+    networks:
+      - harpos
+  harpos-dev-database:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: harpos-database
+    ports:
+      - "27021:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${DB_ROOT_USER}"
+      MONGO_INITDB_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+    networks:
+      - harpos
+
+networks:
+  harpos:
+

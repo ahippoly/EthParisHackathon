@@ -3,6 +3,19 @@
     <h1 class="main-title text-h4">My Search Criterias</h1>
 
     <section id="search-criterias-form">
+      <!-- MINIUM BALANCE -->
+      <v-text-field
+        v-model.number="searchFormData.minimumBalance"
+        class="--input"
+        type="number"
+        step="any"
+        min="0"
+        label="Minimum balance"
+        :error="!!errors.minimumBalance.message"
+        :error-messages="errors.minimumBalance.message"
+        @update:model-value="errors.minimumBalance.validator"
+      ></v-text-field>
+
       <!-- COUNTRY -->
       <v-autocomplete
         v-model="searchFormData.country"
@@ -68,12 +81,12 @@ import { User, UserSearch } from '@/assets/ts/classes/user'
 
 definePageMeta({ middleware: ['is-logged-in'] })
 
-type TProfileFormData = IUserSearch
+type TSearchFormData = IUserSearch
 
 const user = useSessionStore().getUser()
 
 /* >==== INPUTS VALUE ====> */
-const searchFormData = reactive<TProfileFormData>({
+const searchFormData = reactive<TSearchFormData>({
   minimumBalance: user?.search?.minimumBalance || 0,
   country: user?.search?.country || ('' as Countries),
   langs: user?.search?.langs || [],
@@ -81,8 +94,25 @@ const searchFormData = reactive<TProfileFormData>({
   skills: user?.search?.skills || []
 })
 
+const errors = reactive<{ minimumBalance: { message: string; validator: (value?: number) => void } }>({
+  minimumBalance: {
+    message: '',
+    validator: (value?: number) => {
+      const newValue = value ?? searchFormData.minimumBalance
+      errors.minimumBalance.message = !newValue || newValue >= 0 ? '' : 'You must provide a positive number'
+    }
+  }
+})
+
 /* >==== SAVE & UPDATE METHODS ====> */
 function saveSearch() {
+  // run validators
+  errors.minimumBalance.validator()
+
+  // check if any error arose
+  const isThereErrors = !!errors.minimumBalance.message
+  if (isThereErrors) return
+
   // if not, save
   if (user) updateSearch(user)
 }
@@ -139,6 +169,7 @@ function updateSearch(user: User) {
     }
 
     .--input {
+      width: 100%;
       color: $clr-text !important;
     }
   }

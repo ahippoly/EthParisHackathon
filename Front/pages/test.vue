@@ -106,7 +106,6 @@ let currentConversation: Conversation
   display: flex;
   flex-direction: column;
 }
-
 .test {
   font-family: 'Montserrat';
 }
