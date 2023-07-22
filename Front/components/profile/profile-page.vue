@@ -180,6 +180,7 @@ defineProps({
 
 async function logout() {
   await useSessionStore().logOut()
+  await useRouter().push('/')
 }
 
 const user = useSessionStore().getUser()
