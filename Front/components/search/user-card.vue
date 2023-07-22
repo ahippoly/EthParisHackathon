@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="`/search/${user._id}`" class="link">
+  <NuxtLink :to="`/search/${user.id}`" class="link">
     <section :id="id" class="user-card">
       <p class="--name">{{ user.name }}</p>
       <div class="--interests" :style="`--interests-amount: ${firsts3Interests?.length || 1}`">
@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { User } from '@/assets/ts/classes/user'
-const props = defineProps({ user: { type: User, default: null } })
+const props = defineProps({ user: { type: Object as PropType<User>, default: null } })
 
 const id = Math.random().toString()
 

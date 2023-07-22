@@ -2,8 +2,11 @@ import { loggedUser, relevantUsers } from '@/assets/constants/mock/users.mock'
 import { User } from '@/assets/ts/classes/user'
 
 export class UsersEndpoints {
-  static async register(id: string): Promise<User> {
-    const user = new User(id)
+  static async register(idMask: string): Promise<User> {
+    // register to api
+
+    // get new User back as pojos
+    const user = User.fromIUser(loggedUser)
     useSessionStore().logIn(user)
 
     return user

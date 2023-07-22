@@ -1,7 +1,7 @@
 import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-datas'
 
 export const loggedUser: IUser = {
-  _id: 'some-cismo-id',
+  id: 'some-cismo-id',
   name: 'DarkSasukeu93',
   description: "J'espère devinir milliardaire en jouant au loto et en pariant mon salaire sur Mbape tous les mois",
   goals: ['Devenir riche', 'Soulever un max de belettes'],
@@ -23,7 +23,7 @@ export const loggedUser: IUser = {
 
 export const relevantUsers: IUser[] = [
   {
-    _id: 'some-cismo-id-1',
+    id: 'some-cismo-id-1',
     name: 'ArcherBrutal',
     description: "Je peux pas, j'ai Destiny",
     goals: ['Finir 140 000 fois chaque raid de Destiny', 'et les finir encore'],
@@ -43,7 +43,7 @@ export const relevantUsers: IUser[] = [
     openOnlyToThoseMatchingSearch: true
   },
   {
-    _id: 'some-cismo-id-2',
+    id: 'some-cismo-id-2',
     name: 'Kimimao',
     description: "C'est pas moi c'est la poele",
     goals: ['être le meilleur dresseur', 'relever tous les défis'],
@@ -63,7 +63,7 @@ export const relevantUsers: IUser[] = [
     openOnlyToThoseMatchingSearch: true
   },
   {
-    _id: 'some-cismo-id-3',
+    id: 'some-cismo-id-3',
     name: 'Wolfknight',
     description: 'être la plus belle',
     goals: ['arrêter de faire pleuvoir'],
@@ -83,7 +83,7 @@ export const relevantUsers: IUser[] = [
     openOnlyToThoseMatchingSearch: true
   },
   {
-    _id: 'some-cismo-id-4',
+    id: 'some-cismo-id-4',
     name: 'Skolak',
     description: 'tous les niquer sur rocket leage',
     goals: ['comprendre comment on avance'],
@@ -103,7 +103,7 @@ export const relevantUsers: IUser[] = [
     openOnlyToThoseMatchingSearch: true
   },
   {
-    _id: 'some-cismo-id-5',
+    id: 'some-cismo-id-5',
     name: 'BobyC',
     description: 'Vous connaissez king of the hat',
     goals: ['turbo clutch le hackaton'],

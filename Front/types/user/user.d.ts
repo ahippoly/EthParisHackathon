@@ -4,7 +4,8 @@ export {}
 
 declare global {
   interface IUser {
-    _id: string
+    id: string
+    idMask?: string
     name: string
     description: string
     goals: string[]

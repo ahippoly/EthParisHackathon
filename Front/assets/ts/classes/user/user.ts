@@ -2,25 +2,24 @@ import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-data
 
 export class User {
   /* eslint-disable prettier/prettier */
-  public  readonly  _id: string
-  private           _name: string
-  private           _description: string
-  private           _goals: string[]
-  private           _profile?: UserProfile
-  private           _search?: UserSearch
-  private           _openOnlyToThoseMatchingSearch: boolean
+  private _id = ''
+  private _idMask?: string
+  private _name = ''
+  private _description = ''
+  private _goals: string[] = []
+  private _profile?: UserProfile
+  private _search?: UserSearch
+  private _openOnlyToThoseMatchingSearch = true
   /* eslint-enable prettier/prettier */
 
-  constructor(id: string) {
-    this._id = id
-    this._name = ''
-    this._description = ''
-    this._goals = []
-    this._openOnlyToThoseMatchingSearch = false
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  protected constructor() {}
 
   public static fromIUser(user: IUser): User {
-    const userInstance = new User(user._id)
+    const userInstance = new User()
+
+    userInstance._id = user.id
+    userInstance._idMask = user.idMask
     userInstance.setName(user.name)
     userInstance.setDescription(user.description)
     userInstance.setGoals(user.goals)
@@ -32,7 +31,10 @@ export class User {
   }
 
   public static fromRawUser(user: Record<string, unknown>): User {
-    const userInstance = new User(user._id as string)
+    const userInstance = new User()
+
+    userInstance._id = user._id as string
+    userInstance._idMask = user._idMask as string | undefined
     userInstance.setName(user._name as string)
     userInstance.setDescription(user._description as string)
     userInstance.setGoals(user._goals as string[])
@@ -46,6 +48,9 @@ export class User {
   /* >==== GETTERS & SETTERS ====> */
   get id(): string {
     return this._id
+  }
+  get idMask(): string | undefined {
+    return this._idMask
   }
   get name(): string {
     return this._name
