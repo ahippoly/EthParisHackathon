@@ -7,7 +7,7 @@ import { UserSearch } from './pojos/user-search'
 @modelOptions({ options: { allowMixed: Severity.ALLOW }, schemaOptions: { timestamps: true } })
 export class User extends TimestampedDBDocument {
   /* eslint-disable prettier/prettier */
-  @prop({ required: true, _id: false })   @Expose({ name: '_id' })                                protected _idMask: string
+  @prop({ required: true, _id: false })   @Expose({ name: '_idMask' })                            protected _idMask: string
   @prop({ required: true, _id: false })   @Expose({ name: 'xmtpPublicAddress' })                  protected _xmtpPublicAddress: string
   @prop({ required: true, _id: false })   @Expose({ name: 'name' })                               protected _name: string
   @prop({ required: true, _id: false })   @Expose({ name: 'description' })                        protected _description: string

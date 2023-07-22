@@ -8,7 +8,7 @@ import { UserBlueprint } from '@Schemas/user/user.blueprint'
 @Injectable()
 export class UserRepository extends AbstractBaseRepository<User, UserBlueprint> {
   public constructor(@InjectModel(User) model: ReturnModelType<typeof User>) {
-    super(model, User)
+    super(model, { targetClass: User, propertiesToOmit: ['_idMask'] })
   }
 
   public async findByIdMask(idMask: string): Promise<User> {
