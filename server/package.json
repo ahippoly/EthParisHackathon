@@ -19,8 +19,8 @@
     "start:prod": "yarn build:prod && yarn run:prod",
     "run:staging": "cross-env NODE_ENV=staging && node dist/src/main",
     "run:prod": "cross-env NODE_ENV=production && node dist/src/main",
-    "db:dev": "yarn env:select development && set -a && source envs/.env && docker-compose up -d harpos-dev-database",
-    "db:prod": "yarn env:select production && set -a && source envs/.env && docker-compose up -d harpos-database"
+    "db:dev": "yarn env:select development && docker-compose --env-file envs/.env up -d harpos-dev-database",
+    "db:prod": "yarn env:select production && docker-compose --env-file envs/.env up -d harpos-database"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
