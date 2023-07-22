@@ -1,12 +1,14 @@
+import { Countries, Interests, Langs, Skills } from '@/common/enums/meta-datas'
 import { prop } from '@typegoose/typegoose'
 import { Expose } from 'class-transformer'
 
 export class UserSearch {
   /* eslint-disable prettier/prettier */
-  @prop({ required: false, _id: false })  @Expose({ name: 'country' })   protected _country: string | undefined
-  @prop({ required: true, _id: false })   @Expose({ name: 'langs' })     protected _langs: string[]
-  @prop({ required: true, _id: false })   @Expose({ name: 'interests' }) protected _interests: string[]
-  @prop({ required: true, _id: false })   @Expose({ name: 'skills' })    protected _skills: string[]
+  @prop({ required: false, _id: false })  @Expose({ name: 'minimumBalance' })   protected _minimumBalance: number | undefined
+  @prop({ required: false, _id: false })  @Expose({ name: 'country' })          protected _country: Countries | undefined
+  @prop({ required: true, _id: false })   @Expose({ name: 'langs' })            protected _langs: Langs[]
+  @prop({ required: true, _id: false })   @Expose({ name: 'interests' })        protected _interests: Interests[]
+  @prop({ required: true, _id: false })   @Expose({ name: 'skills' })           protected _skills: Skills[]
   /* eslint-enable prettier/prettier */
 
   /* >==== INIT ====> */
@@ -17,9 +19,16 @@ export class UserSearch {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
-  public static of(country: string | undefined, langs: string[], interests: string[], skills: string[]): UserSearch {
+  public static of(
+    minimumBalance: number | undefined,
+    country: Countries | undefined,
+    langs: Langs[],
+    interests: Interests[],
+    skills: Skills[]
+  ): UserSearch {
     const search = new UserSearch()
 
+    search._minimumBalance = minimumBalance
     search._country = country
     search._langs = langs
     search._interests = interests
@@ -41,16 +50,19 @@ export class UserSearch {
 
   /* >==== GETTERS && SETTERS ====> */
   /* eslint-disable prettier/prettier */
-  public get country()                                    : string | undefined      { return this._country           }
-  public set country(country: string | undefined)                                   { this._country = country        }
+  public get minimumBalance()                                     : number | undefined      { return this._minimumBalance             }
+  public set minimumBalance(minimumBalance: number | undefined)                             { this._minimumBalance = minimumBalance   }
+
+  public get country()                                            : Countries | undefined   { return this._country                    }
+  public set country(country: Countries | undefined)                                        { this._country = country                 }
   
-  public get langs()                                      : string[]                { return this._langs             }
-  public set langs(langs: string[])                                                 { this._langs = langs            }
+  public get langs()                                              : Langs[]                 { return this._langs                      }
+  public set langs(langs: Langs[])                                                          { this._langs = langs                     }
   
-  public get interests()                                  : string[]                { return this._interests         }
-  public set interests(interests: string[])                                         { this._interests = interests    }
+  public get interests()                                          : Interests[]             { return this._interests                  }
+  public set interests(interests: Interests[])                                              { this._interests = interests             }
   
-  public get skills()                                     : string[]                { return this._skills            }
-  public set skills(skills: string[])                                               { this._skills = skills          }
+  public get skills()                                             : Skills[]                { return this._skills                     }
+  public set skills(skills: Skills[])                                                       { this._skills = skills                   }
   /* eslint-enable prettier/prettier */
 }

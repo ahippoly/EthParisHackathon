@@ -36,4 +36,9 @@ export class UsersController {
   public async getAllUsersByXmtpAddress(@Body() { addresses }: XmtpAddressesRequest): Promise<User[]> {
     return await this.usersService.getAllUsersByXmtpAddress(addresses)
   }
+
+  @Get('relevant-matchs/:ID_MASK')
+  public async getRelevantMatches(@Param('ID_MASK') idMask: string): Promise<User[]> {
+    return await this.usersService.getRelevantMatches(idMask)
+  }
 }

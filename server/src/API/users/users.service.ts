@@ -1,23 +1,11 @@
 import { UserRepository } from '@/repositories'
-import { User } from '@/schemas/user'
+import { User, UserBlueprint } from '@/schemas/user'
 import { TUserProfile } from '@/schemas/user/pojos/user-profile'
 import { ForbiddenException, Injectable } from '@nestjs/common'
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
-
-  public async getUserByIdMask(idMask: string): Promise<User> {
-    return this.userRepository.findByIdMask(idMask)
-  }
-
-  public async getUserByXmtpAddress(address: string): Promise<User> {
-    return this.userRepository.findByXmtpAddress(address)
-  }
-
-  public async getAllUsersByXmtpAddress(addresses: string[]): Promise<User[]> {
-    return this.userRepository.findManyByXmtpAddress(addresses)
-  }
 
   public async registerUser(
     idMask: string,
@@ -44,5 +32,79 @@ export class UsersService {
     const savedUser = await this.userRepository.create(newUser)
 
     return savedUser
+  }
+
+  public async getUserByIdMask(idMask: string): Promise<User> {
+    return this.userRepository.findByIdMask(idMask)
+  }
+
+  public async getUserByXmtpAddress(address: string): Promise<User> {
+    return this.userRepository.findByXmtpAddress(address)
+  }
+
+  public async getAllUsersByXmtpAddress(addresses: string[]): Promise<User[]> {
+    return this.userRepository.findManyByXmtpAddress(addresses)
+  }
+
+  public async getRelevantMatches(idMask: string): Promise<User[]> {
+    const userSearching = await this.getUserByIdMask(idMask)
+
+    const { /* minimumBalance,  */ country, langs, interests, skills } = userSearching.search
+
+    const query: TDocumentMongoFilterQuery<UserBlueprint> = {}
+
+    if (country) query['_profile._country'] = country
+    if (langs && langs.length) query['_profile._langs'] = { $in: langs }
+    if (skills && skills.length) query['_profile._skills'] = { $in: skills }
+    if (interests && interests.length) query['_profile._interests'] = { $in: interests }
+
+    const relevantUsers = await this.userRepository.findMany(query).getOr([])
+
+    // TODO: filter by balance
+
+    // filter users that searcher doesn't interest and that set the filter in their profiles
+    const filteredRelevantUsers = relevantUsers.filter((relevantUser) => {
+      if (relevantUser.openOnlyToThoseMatchingSearch) return this.checkIfUser1MatchesUser2Criterias(userSearching, relevantUser)
+
+      return true
+    })
+
+    return filteredRelevantUsers
+  }
+
+  private checkIfUser1MatchesUser2Criterias(user1: User, user2: User): boolean {
+    const { /* minimumBalance,  */ country, langs, interests, skills } = user2.search
+
+    // check country
+    if (country && user1.profile.country !== country) return false
+    // check langs
+    if (langs && langs.length) {
+      let found = false
+      for (const wantedLanguage of langs) {
+        if ((found = user1.profile.langs.includes(wantedLanguage))) break
+      }
+
+      if (!found) return false
+    }
+    // check skills
+    if (skills && skills.length) {
+      let found = false
+      for (const wantedSkill of skills) {
+        if ((found = user1.profile.skills.includes(wantedSkill))) break
+      }
+
+      if (!found) return false
+    }
+    // check interests
+    if (interests && interests.length) {
+      let found = false
+      for (const wantedInterest of interests) {
+        if ((found = user1.profile.interests.includes(wantedInterest))) break
+      }
+
+      if (!found) return false
+    }
+
+    return true
   }
 }
