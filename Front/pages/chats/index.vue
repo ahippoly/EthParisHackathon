@@ -6,6 +6,8 @@
       <v-btn @click="connectXMTPClient"> Connect </v-btn>
       <p>logged client = {{ client?.address }}</p>
     </section>
+
+    <pass-phrase></pass-phrase>
   </section>
   <chat-page v-if="chatPageId && client" :user-id="chatPageId" :client="client"></chat-page>
   <conversation-list-page v-else-if="client" :client="client" @go-to-chat-page="updateChatPage"></conversation-list-page>
@@ -19,6 +21,8 @@ import { createClient } from '~~/modules/xmtp/xmtpUtils'
 const client = ref<Client>()
 const walletNum = ref<string>('')
 const chatPageId = ref<string>('')
+
+const decryptedKey = useKeyDecrypt().getDecryptedKey()
 
 const updateChatPage = (id: string) => {
   chatPageId.value = id
