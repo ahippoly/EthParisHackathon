@@ -31,28 +31,6 @@ const firsts3Interests = props.user.profile?.interests.slice(0, 3)
     display: flex;
     justify-content: space-between;
     gap: 10px;
-
-    .name {
-    }
-
-    .--interests {
-      /*  display: flex;
-      justify-content: right;
-      width: auto;
-      gap: 5px; */
-      /* .chip {
-        background-color: $clr-secondary;
-        font-style: italic;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding: 5px 8px;
-        border-radius: 100px;
-        color: $clr-background;
-        width: fit-content;
-        max-width: calc(100% / var(--interests-amount) - 20px);
-      } */
-    }
   }
 }
 </style>
