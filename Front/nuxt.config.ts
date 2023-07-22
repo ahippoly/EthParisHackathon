@@ -58,7 +58,7 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         {
           name: 'keywords',
-          content: 'to-define'
+          content: 'value,my,car,vmc,valuemycar,voitures,carstaging,esthetique,mecanique,detailing,prestataires,prestataire'
         },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
@@ -74,7 +74,32 @@ export default defineNuxtConfig({
           href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Nunito:300,400,500,600,700,800,900&display=swap'
         }
       ],
-      script: []
+      script: [
+        // stripe
+        { src: 'https://js.stripe.com/v3/' },
+        { src: 'https://accounts.google.com/gsi/client' },
+        // Mapbox
+        { src: 'https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js' },
+        {
+          type: 'text/javascript',
+          src: 'https://cdn.jsdelivr.net/npm/vue-mapbox@latest/dist/vue-mapbox.min.js'
+        },
+        // google tag manager
+        {
+          hid: 'gtmHead',
+          innerHTML: `
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-5MHFNWZ');`
+        },
+        // facebook pixel
+        {
+          children:
+            "!(function(f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function(...args) {   n.callMethod ? n.callMethod(...args) : n.queue.push(args) }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);})(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');fbq('init', '669743703885993');fbq('track', 'PageView');"
+        }
+      ]
     }
   }
 })
