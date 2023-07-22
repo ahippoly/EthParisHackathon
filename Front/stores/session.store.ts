@@ -1,8 +1,9 @@
 // must be explicitly imported for vitest unit testing
 import { defineStore } from 'pinia'
+import { User } from '@/assets/ts/classes/user'
 
 export interface ISessionStore {
-  user: IUser | null
+  user: User | null
 }
 
 const storedData: ISessionStore = {
@@ -13,8 +14,11 @@ export const useSessionStore = defineStore({
   id: 'session',
   state: () => storedData,
   actions: {
-    logIn(user: IUser) {
+    logIn(user: User) {
       this.user = user
+    },
+    getUser() {
+      return this.user ? User.of(this.user as IUser) : null
     },
     logOut() {
       this.user = null

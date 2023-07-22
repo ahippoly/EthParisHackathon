@@ -1,7 +1,4 @@
-import { Countries } from "@/types/user/meta-datas/countries";
-import { Interests } from "@/types/user/meta-datas/interests";
-import { Langs } from "@/types/user/meta-datas/langs";
-import { Skills } from "@/types/user/meta-datas/skills";
+import { Countries, Interests, Langs, Skills } from "@/assets/ts/enums/meta-datas";
 
 export const loggedUser: IUser = {
   _id: 'some-cismo-id',
