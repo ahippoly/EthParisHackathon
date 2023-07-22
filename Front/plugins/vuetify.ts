@@ -6,11 +6,13 @@ const themes: Record<string, ThemeDefinition> = {
   harpos: {
     dark: false,
     colors: {
-      background: '#2C0735',
-      primary: '#4E148C',
-      secondary: '#03DAC6',
-      text: '#FFE047',
-      action: '#FFE047'
+      background: '#090909',
+      surface: '#FFFFFF',
+      primary: '#76D3FF',
+      secondary: '#6B22CF',
+      text: '#090909',
+      action: '#76D3FF',
+      error: '#D62828'
     }
   }
 }

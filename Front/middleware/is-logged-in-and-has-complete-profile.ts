@@ -3,5 +3,10 @@ export default defineNuxtRouteMiddleware(() => {
   if (!process.client) return
 
   if (!useSessionStore().isLoggedIn) return navigateTo('/')
-  if (!useSessionStore().getUser().hasCompletedHisProfile()) return navigateTo('/profile')
+  if (
+    !useSessionStore()
+      .getUser()
+      .hasCompletedHisProfile()
+  )
+    return navigateTo('/profile')
 })
