@@ -8,16 +8,19 @@
   "scripts": {
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --ignore-path .gitignore",
     "lint:fix": "yarn lint --fix",
-    "build:local": "bash ./scripts/set_env.bash development && nest build",
-    "build:staging": "bash ./scripts/set_env.bash staging && nest build",
-    "build:prod": "bash ./scripts/set_env.bash production && nest build",
+    "env:select": "bash ./scripts/set_env.bash",
+    "build:local": "yarn env:select development && nest build",
+    "build:staging": "yarn env:select staging && nest build",
+    "build:prod": "yarn env:select production && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "start:staging": "yarn build:staging && yarn run:staging",
     "start:prod": "yarn build:prod && yarn run:prod",
     "run:staging": "cross-env NODE_ENV=staging && node dist/src/main",
-    "run:prod": "cross-env NODE_ENV=production && node dist/src/main"
+    "run:prod": "cross-env NODE_ENV=production && node dist/src/main",
+    "db:dev": "yarn env:select development && set -a && source envs/.env && docker-compose up -d harpos-dev-database",
+    "db:prod": "yarn env:select production && set -a && source envs/.env && docker-compose up -d harpos-database"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
