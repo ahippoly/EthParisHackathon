@@ -26,6 +26,6 @@ export class UserRepository extends AbstractBaseRepository<User, UserBlueprint> 
   }
 
   public async findManyByXmtpAddress(addresses: string[]): Promise<User[]> {
-    return await this.findMany({ _xmtpPublicAddress: { $in: addresses } }).getOrThrow(new NotFoundException('User not found'))
+    return await this.findMany({ _xmtpPublicAddress: { $in: addresses } }).getOr([])
   }
 }

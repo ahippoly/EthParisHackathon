@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common/exceptions'
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception'
-import { ConvertPojoToInstance, TClassShape, TToInstanceOptions } from '../convert-pojo-to-instance.class'
+import { ConvertPojoToInstance, TToInstanceOptions } from '../convert-pojo-to-instance.class'
 import { AbstractDataWrapper } from './abstract-data-wrapper.abstract-class'
 
 /**
@@ -35,7 +35,7 @@ export class InstantiatingDataWrapper<
     // else if options were provided,
     // it means that data is supposed to be an object or an array of objects
     // that must be turned into Class instance(s)
-    if (this.options) return (await this.convertPojoToClassInstance(resolvedData as TClassShape<TClass, TClassBlueprint>)) as Awaited<TDataPromise>
+    if (this.options) return ConvertPojoToInstance.convert(resolvedData, this.options) as Awaited<TDataPromise>
     // else it means there is data and that's all that matters, so it's ok :thumbs-up:
     else return resolvedData
   }
@@ -50,7 +50,7 @@ export class InstantiatingDataWrapper<
     // else if options were provided,
     // it means that data is supposed to be an object or an array of objects
     // that must be turned into Class instance(s)
-    if (this.options) return (await this.convertPojoToClassInstance(resolvedData as TClassShape<TClass, TClassBlueprint>)) as Awaited<TDataPromise>
+    if (this.options) return ConvertPojoToInstance.convert(resolvedData, this.options) as Awaited<TDataPromise>
     // else it means there is data and that's all that matters, so it's ok :thumbs-up:
     else return resolvedData
   }
@@ -58,8 +58,9 @@ export class InstantiatingDataWrapper<
   public async getOr(fallbackData: Awaited<TDataPromise>): Promise<TDataPromise> {
     const resolvedData = await this.data
     if (!resolvedData) return fallbackData
+
     // else it means there is data and that's all that matters, so it's ok :thumbs-up:
-    if (this.options) return (await this.convertPojoToClassInstance(resolvedData as TClassShape<TClass, TClassBlueprint>)) as Awaited<TDataPromise>
+    if (this.options) return ConvertPojoToInstance.convert(resolvedData, this.options) as Awaited<TDataPromise>
     else return resolvedData
   }
 
@@ -73,13 +74,5 @@ export class InstantiatingDataWrapper<
     options?: TToInstanceOptions<TSData, TSClassProto, TSObjectBlueprint>
   ): InstantiatingDataWrapper<TSDataPromise, TSData, TSClassProto, TSObjectBlueprint> {
     return new InstantiatingDataWrapper(data, options)
-  }
-
-  private async convertPojoToClassInstance(resolvedData: TClassShape<TClass, TClassBlueprint> | null): Promise<TClass | null> {
-    if (typeof resolvedData !== 'object') throw new TypeError('Cannot convert non-object value to a class instance')
-
-    if (!resolvedData || !this.options) return null
-
-    return ConvertPojoToInstance.convertOne(resolvedData, this.options)
   }
 }

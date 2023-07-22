@@ -76,7 +76,7 @@ export abstract class AbstractBaseRepository<TSchema extends DBDocument, TBluepr
     const data = this.model
       .find({ ...query })
       .lean()
-      .exec()
+      .exec() as Promise<TSchema[]>
 
     return InstantiatingDataWrapper.fromData(data, this.options)
   }
