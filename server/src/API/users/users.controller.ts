@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Post, Param } from '@nestjs/common'
+import { Body, Controller, Get, Post, Patch, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { UsersService } from './users.service'
 import { User } from '@/schemas/user'
-import { RegisterUserRequest, XmtpAddressesRequest } from './requests'
+import { RegisterUserRequest, XmtpAddressesRequest, SearchDataRequest, UpdateUserRequest } from './requests'
 
 @ApiTags('users')
 @Controller('users')
@@ -22,13 +22,13 @@ export class UsersController {
     )
   }
 
-  @Get('by-id-mask/:ID_MASK')
-  public async getUserByIdMask(@Param('ID_MASK') idMask: string): Promise<User> {
+  @Get('by-id-mask')
+  public async getUserByIdMask(@Query('id-mask') idMask: string): Promise<User> {
     return await this.usersService.getUserByIdMask(idMask)
   }
 
-  @Get('by-address/:ADDRESS')
-  public async getUserByXmtpAddress(@Param('ADDRESS') address: string): Promise<User> {
+  @Get('by-address')
+  public async getUserByXmtpAddress(@Query('address') address: string): Promise<User> {
     return await this.usersService.getUserByXmtpAddress(address)
   }
 
@@ -37,8 +37,30 @@ export class UsersController {
     return await this.usersService.getAllUsersByXmtpAddress(addresses)
   }
 
-  @Get('relevant-matchs/:ID_MASK')
-  public async getRelevantMatches(@Param('ID_MASK') idMask: string): Promise<User[]> {
+  @Get('relevant-matchs')
+  public async getRelevantMatches(@Query('id-mask') idMask: string): Promise<User[]> {
     return await this.usersService.getRelevantMatches(idMask)
+  }
+
+  @Patch('profile')
+  public async updateProfile(@Query('id-mask') idMask: string, @Body() request: UpdateUserRequest): Promise<User> {
+    return await this.usersService.updateProfile(
+      idMask,
+      request.name,
+      request.description,
+      request.goals,
+      request.openOnlyToThoseMatchingSearch,
+      request.profileData
+    )
+  }
+
+  @Patch('search')
+  public async updateSearch(@Query('id-mask') idMask: string, @Body() request: SearchDataRequest): Promise<User> {
+    return await this.usersService.updateSearch(idMask, request.minimumBalance, request.country, request.langs, request.interests, request.skills)
+  }
+
+  @Patch('xmtp-crypted-private-key')
+  public async updateXmtpCryptedPrivateKey(@Query('id-mask') idMask: string, @Query('crypted-key') cryptedKey: string): Promise<boolean> {
+    return await this.usersService.updateCryptedPrivateKey(idMask, cryptedKey)
   }
 }

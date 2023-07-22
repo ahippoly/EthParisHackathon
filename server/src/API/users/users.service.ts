@@ -1,6 +1,8 @@
+import { Countries, Interests, Langs, Skills } from '@/common/enums/meta-datas'
 import { UserRepository } from '@/repositories'
 import { User, UserBlueprint } from '@/schemas/user'
-import { TUserProfile } from '@/schemas/user/pojos/user-profile'
+import { TUserProfile, UserProfile } from '@/schemas/user/pojos/user-profile'
+import { UserSearch } from '@/schemas/user/pojos/user-search'
 import { ForbiddenException, Injectable } from '@nestjs/common'
 
 @Injectable()
@@ -34,6 +36,55 @@ export class UsersService {
     return savedUser
   }
 
+  public async updateProfile(
+    idMask: string,
+    name: string,
+    description: string,
+    goals: string[],
+    openOnlyToThoseMatchingSearch: boolean,
+    profileData: TUserProfile
+  ): Promise<User> {
+    const user = await this.getUserByIdMask(idMask)
+
+    user.name = name
+    user.description = description
+    user.goals = goals
+
+    const { country, langs, interests, skills } = profileData
+    user.profile = UserProfile.of(country, langs, interests, skills)
+
+    user.openOnlyToThoseMatchingSearch = openOnlyToThoseMatchingSearch
+
+    this.userRepository.updateAsIs(user)
+
+    return user
+  }
+
+  public async updateSearch(
+    idMask: string,
+    minimumBalance: number | undefined,
+    country: Countries | undefined,
+    langs: Langs[],
+    interests: Interests[],
+    skills: Skills[]
+  ): Promise<User> {
+    const user = await this.getUserByIdMask(idMask)
+
+    user.search = UserSearch.of(minimumBalance, country, langs, interests, skills)
+
+    this.userRepository.updateAsIs(user)
+
+    return user
+  }
+
+  public async updateCryptedPrivateKey(idMask: string, cryptedKey: string): Promise<boolean> {
+    const user = await this.getUserByIdMask(idMask)
+
+    user.xmtpCryptedPrivateKey = cryptedKey
+
+    return await this.userRepository.updateAsIs(user)
+  }
+
   public async getUserByIdMask(idMask: string): Promise<User> {
     return this.userRepository.findByIdMask(idMask)
   }
@@ -51,7 +102,7 @@ export class UsersService {
 
     const { /* minimumBalance,  */ country, langs, interests, skills } = userSearching.search
 
-    const query: TDocumentMongoFilterQuery<UserBlueprint> = {}
+    const query: TDocumentMongoFilterQuery<UserBlueprint> = { _id: { $ne: userSearching._id } }
 
     if (country) query['_profile._country'] = country
     if (langs && langs.length) query['_profile._langs'] = { $in: langs }
