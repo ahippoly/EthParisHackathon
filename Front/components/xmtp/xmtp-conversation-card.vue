@@ -1,6 +1,6 @@
 <template>
   <section>
-    <p>{{ props.peerUser.name }}</p>
+    <v-btn>{{ props.peerUser.name }}</v-btn>
   </section>
 </template>
 <script setup lang="ts">
