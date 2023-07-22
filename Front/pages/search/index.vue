@@ -15,7 +15,7 @@ definePageMeta({ middleware: ['is-logged-in-and-has-complete-profile'] })
 const relevantUsers = ref<User[]>([])
 
 async function fetchRelevantUsers() {
-  const { data, error } = await useAPI().users.getRelevantProfiles('some-id-mask')
+  const { data, error } = await useAPI().users.getRelevantProfiles()
   if (!error && data) relevantUsers.value = data
 }
 

@@ -117,7 +117,7 @@ function saveSearch() {
 }
 
 function updateSearch() {
-  useAPI().users.updateSearch('some-id-mask', searchFormData)
+  useAPI().users.updateSearch(searchFormData)
 }
 </script>
 

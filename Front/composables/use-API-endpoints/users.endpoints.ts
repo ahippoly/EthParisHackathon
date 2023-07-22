@@ -36,10 +36,21 @@ export class UsersEndpoints {
   }
 
   static async logIn(idMask: string): Promise<IRequestResult<User>> {
-    return UsersEndpoints.getProfile(idMask)
+    if (useSessionStore().getIdMask() === idMask) {
+      const currentUser = useSessionStore().getUser()
+
+      if (!currentUser) return UsersEndpoints.getProfile()
+      else return { data: currentUser, error: null }
+    }
+
+    useSessionStore().setIdMask(idMask)
+    return UsersEndpoints.getProfile()
   }
 
-  static async getProfile(idMask: string): Promise<IRequestResult<User>> {
+  static async getProfile(): Promise<IRequestResult<User>> {
+    const idMask = useSessionStore().getIdMask()
+    if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
+
     const { data, error } = await useRequest().get<IUser>(UsersEndpoints.path + '/by-id-mask?id-mask=' + idMask)
 
     if (!data || error) return { data: null, error }
@@ -79,7 +90,10 @@ export class UsersEndpoints {
     return { data: data.map((user) => User.fromIUser(user)), error: null }
   }
 
-  static async getRelevantProfiles(idMask: string): Promise<IRequestResult<User[]>> {
+  static async getRelevantProfiles(): Promise<IRequestResult<User[]>> {
+    const idMask = useSessionStore().getIdMask()
+    if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
+
     const { data, error } = await useRequest().get<IUser[]>(UsersEndpoints.path + '/relevant-matchs?id-mask=' + idMask)
 
     if (!data || error) return { data: null, error }
@@ -89,7 +103,10 @@ export class UsersEndpoints {
     return { data: userInstances, error: null }
   }
 
-  static async updateProfile(idMask: string, payload: TUpdateUserPayload): Promise<IRequestResult<User>> {
+  static async updateProfile(payload: TUpdateUserPayload): Promise<IRequestResult<User>> {
+    const idMask = useSessionStore().getIdMask()
+    if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
+
     const { data, error } = await useRequest().patch<IUser>(UsersEndpoints.path + '/profile?id-mask=' + idMask, { body: payload })
 
     if (!data || error) return { data: null, error }
@@ -101,7 +118,10 @@ export class UsersEndpoints {
     return { data: user, error: null }
   }
 
-  static async updateSearch(idMask: string, payload: IUserSearch): Promise<IRequestResult<User>> {
+  static async updateSearch(payload: IUserSearch): Promise<IRequestResult<User>> {
+    const idMask = useSessionStore().getIdMask()
+    if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
+
     const { data, error } = await useRequest().patch<IUser>(UsersEndpoints.path + '/search?id-mask=' + idMask, { body: payload })
 
     if (!data || error) return { data: null, error }
@@ -113,7 +133,10 @@ export class UsersEndpoints {
     return { data: user, error: null }
   }
 
-  static async updateXmtpCryptedPrivateKey(idMask: string, newCryptedKey: string, publicAddress: string): Promise<IRequestResult<boolean>> {
+  static async updateXmtpCryptedPrivateKey(newCryptedKey: string, publicAddress: string): Promise<IRequestResult<boolean>> {
+    const idMask = useSessionStore().getIdMask()
+    if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
+
     const { data, error } = await useRequest().patch<boolean>(
       UsersEndpoints.path + `/xmtp-crypted-private-key?id-mask=${idMask}&crypted-key=${newCryptedKey}&public-address=${publicAddress}`
     )
