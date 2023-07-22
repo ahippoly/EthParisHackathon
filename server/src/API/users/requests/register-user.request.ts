@@ -11,6 +11,10 @@ export class RegisterUserRequest {
   @Length(2, 100, { message: 'The xmtp address must be between 2 and 100 characters' })
   xmtpPublicAddress: string
 
+  @IsNotEmpty({ message: 'You must provide an xmtp crypted private key' })
+  @Length(2, 100, { message: 'The xmtp crypted private key must be between 2 and 100 characters' })
+  xmtpCryptedPrivateKey: string
+
   @IsNotEmpty({ message: 'You must provide a name' })
   @Length(2, 100, { message: 'The name must be between 2 and 100 characters' })
   name: string

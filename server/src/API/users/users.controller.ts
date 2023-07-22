@@ -14,6 +14,7 @@ export class UsersController {
     return await this.usersService.registerUser(
       request.idMask,
       request.xmtpPublicAddress,
+      request.xmtpCryptedPrivateKey,
       request.name,
       request.description,
       request.goals,

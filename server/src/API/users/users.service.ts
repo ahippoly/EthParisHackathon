@@ -1,7 +1,7 @@
 import { UserRepository } from '@/repositories'
 import { User } from '@/schemas/user'
 import { TUserProfile } from '@/schemas/user/pojos/user-profile'
-import { Injectable } from '@nestjs/common'
+import { ForbiddenException, Injectable } from '@nestjs/common'
 
 @Injectable()
 export class UsersService {
@@ -22,12 +22,24 @@ export class UsersService {
   public async registerUser(
     idMask: string,
     xmtpPublicAddress: string,
+    xmtpCryptedPrivateKey: string,
     name: string,
     description: string,
     goals: string[],
     profileData: TUserProfile
   ): Promise<User> {
-    const newUser = User.of(idMask, xmtpPublicAddress, name, description, goals, profileData)
+    // check that all unique user data are available
+    if (
+      await this.userRepository
+        .findBy({
+          $or: [{ _idMask: idMask }, { _xmtpPublicAddress: xmtpPublicAddress }, { _xmtpCryptedPrivateKey: xmtpCryptedPrivateKey }],
+        })
+        .getOrNull()
+    ) {
+      throw new ForbiddenException('Some unique user data are already taken')
+    }
+
+    const newUser = User.of(idMask, xmtpPublicAddress, xmtpCryptedPrivateKey, name, description, goals, profileData)
 
     const savedUser = await this.userRepository.create(newUser)
 

@@ -3,10 +3,10 @@ import { Expose } from 'class-transformer'
 
 export class UserSearch {
   /* eslint-disable prettier/prettier */
-  @prop({ required: true, _id: false }) @Expose({ name: 'country' })   protected _country: string | undefined
-  @prop({ required: true, _id: false }) @Expose({ name: 'langs' })     protected _langs: string[]
-  @prop({ required: true, _id: false }) @Expose({ name: 'interests' }) protected _interests: string[]
-  @prop({ required: true, _id: false }) @Expose({ name: 'skills' })    protected _skills: string[]
+  @prop({ required: false, _id: false })  @Expose({ name: 'country' })   protected _country: string | undefined
+  @prop({ required: true, _id: false })   @Expose({ name: 'langs' })     protected _langs: string[]
+  @prop({ required: true, _id: false })   @Expose({ name: 'interests' }) protected _interests: string[]
+  @prop({ required: true, _id: false })   @Expose({ name: 'skills' })    protected _skills: string[]
   /* eslint-enable prettier/prettier */
 
   /* >==== INIT ====> */

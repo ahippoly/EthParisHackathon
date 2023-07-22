@@ -11,6 +11,7 @@ import { UserSearch } from './pojos/user-search'
 export abstract class UserBlueprint extends User {
   public _idMask: string
   public _xmtpPublicAddress: string
+  public _xmtpCryptedPrivateKey: string
   public _name: string
   public _description: string
   public _goals: string[]

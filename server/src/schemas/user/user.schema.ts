@@ -9,6 +9,7 @@ export class User extends TimestampedDBDocument {
   /* eslint-disable prettier/prettier */
   @prop({ required: true, _id: false })   @Expose({ name: '_idMask' })                            protected _idMask: string
   @prop({ required: true, _id: false })   @Expose({ name: 'xmtpPublicAddress' })                  protected _xmtpPublicAddress: string
+  @prop({ required: true, _id: false })   @Expose({ name: 'xmtpCryptedPrivateKey' })              protected _xmtpCryptedPrivateKey: string
   @prop({ required: true, _id: false })   @Expose({ name: 'name' })                               protected _name: string
   @prop({ required: true, _id: false })   @Expose({ name: 'description' })                        protected _description: string
   @prop({ required: true, _id: false })   @Expose({ name: 'goals' })                              protected _goals: string[]
@@ -26,11 +27,20 @@ export class User extends TimestampedDBDocument {
     super()
   }
 
-  public static of(idMask: string, xmtpPublicAddress: string, name: string, description: string, goals: string[], profileData: TUserProfile): User {
+  public static of(
+    idMask: string,
+    xmtpPublicAddress: string,
+    xmtpCryptedPrivateKey: string,
+    name: string,
+    description: string,
+    goals: string[],
+    profileData: TUserProfile
+  ): User {
     const user = new User()
 
     user._idMask = idMask
     user._xmtpPublicAddress = xmtpPublicAddress
+    user._xmtpCryptedPrivateKey = xmtpCryptedPrivateKey
     user._name = name
     user._description = description
     user._goals = goals
@@ -40,33 +50,41 @@ export class User extends TimestampedDBDocument {
 
     user._search = UserSearch.new()
 
+    user._openOnlyToThoseMatchingSearch = true
+
     return user
   }
   /* <==== INIT ====< */
 
   /* >==== GETTERS && SETTERS ====> */
   /* eslint-disable prettier/prettier */
-  public get idMask()                                       : string            { return this._idMask                           }
-  public set idMask(idMask: string)                                             { this._idMask = idMask                         }
+  public get idMask()                                                               : string        { return this._idMask                                                   }
+  public set idMask(idMask: string)                                                                 { this._idMask = idMask                                                 }
   
-  public get xmtpPublicAddress()                            : string            { return this._xmtpPublicAddress                }
-  public set xmtpPublicAddress(xmtpPublicAddress: string)                       { this._xmtpPublicAddress = xmtpPublicAddress   }
+  public get xmtpPublicAddress()                                                    : string        { return this._xmtpPublicAddress                                        }
+  public set xmtpPublicAddress(xmtpPublicAddress: string)                                           { this._xmtpPublicAddress = xmtpPublicAddress                           }
 
-  public get name()                                         : string            { return this._name                             }
-  public set name(name: string)                                                 { this._name = name                             }
+  public get xmtpCryptedPrivateKey()                                                : string        { return this._xmtpCryptedPrivateKey                                    }
+  public set xmtpCryptedPrivateKey(xmtpCryptedPrivateKey: string)                                   { this._xmtpCryptedPrivateKey = xmtpCryptedPrivateKey                   }
 
-  public get description()                                  : string            { return this._description                      }
-  public set description(description: string)                                   { this._description = description               }
+  public get name()                                                                 : string        { return this._name                                                     }
+  public set name(name: string)                                                                     { this._name = name                                                     }
 
-  public get goals()                                        : string[]          { return this._goals                            }
-  public set goals(goals: string[])                                             { this._goals = goals                           }
+  public get description()                                                          : string        { return this._description                                              }
+  public set description(description: string)                                                       { this._description = description                                       }
+
+  public get goals()                                                                : string[]      { return this._goals                                                    }
+  public set goals(goals: string[])                                                                 { this._goals = goals                                                   }
 
   
-  public get profile()                                        : UserProfile     { return this._profile                          }
-  public set profile(profile: UserProfile)                                      { this._profile = profile                       }
+  public get profile()                                                              : UserProfile   { return this._profile                                                  }
+  public set profile(profile: UserProfile)                                                          { this._profile = profile                                               }
 
   
-  public get search()                                        : UserSearch       { return this._search                           }
-  public set search(search: UserSearch)                                         { this._search = search                         }
+  public get search()                                                               : UserSearch    { return this._search                                                   }
+  public set search(search: UserSearch)                                                             { this._search = search                                                 }
+  
+  public get openOnlyToThoseMatchingSearch()                                        : boolean       { return this._openOnlyToThoseMatchingSearch                            }
+  public set openOnlyToThoseMatchingSearch(openOnlyToThoseMatchingSearch: boolean)                  { this._openOnlyToThoseMatchingSearch = openOnlyToThoseMatchingSearch   }
   /* eslint-enable prettier/prettier */
 }
