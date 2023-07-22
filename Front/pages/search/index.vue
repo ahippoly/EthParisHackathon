@@ -7,14 +7,24 @@
 </template>
 
 <script lang="ts" setup>
+import { User } from '@/assets/ts/classes/user'
+
 definePageMeta({ middleware: ['is-logged-in-and-has-complete-profile'] })
 
-const relevantUsers = await useAPI().users.getRelevantProfiles()
+const relevantUsers = ref<User[]>([])
+
+async function fetchRelevantUsers() {
+  const { data, error } = await useAPI().users.getRelevantProfiles('some-id-mask')
+  if (!error && data) relevantUsers.value = data
+}
+
+fetchRelevantUsers()
 </script>
 
 <style lang="scss" scoped>
 #search {
   padding: 50px 20px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

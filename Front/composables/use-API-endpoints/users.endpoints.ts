@@ -1,9 +1,9 @@
 import { User } from '@/assets/ts/classes/user'
 
-export type TRegisterUserPayload = Omit<IUser, '_id' | 'profil' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
+export type TRegisterUserPayload = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
   profileData: IUserProfile
 }
-export type TUpdateUserPayload = Omit<IUser, '_id' | 'profil' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
+export type TUpdateUserPayload = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
   profileData: IUserProfile
 }
 
@@ -96,7 +96,11 @@ export class UsersEndpoints {
 
     if (!data || error) return { data: null, error }
 
-    return { data: User.fromIUser(data), error: null }
+    const user = User.fromIUser(data)
+
+    useSessionStore().setUser(user)
+
+    return { data: user, error: null }
   }
 
   static async updateSearch(idMask: string, payload: IUserSearch): Promise<IRequestResult<User>> {
@@ -104,7 +108,11 @@ export class UsersEndpoints {
 
     if (!data || error) return { data: null, error }
 
-    return { data: User.fromIUser(data), error: null }
+    const user = User.fromIUser(data)
+
+    useSessionStore().setUser(user)
+
+    return { data: user, error: null }
   }
 
   static async updateXmtpCryptedPrivateKey(idMask: string, newCryptedKey: string, publicAddress: string): Promise<IRequestResult<boolean>> {

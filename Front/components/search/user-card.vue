@@ -1,10 +1,10 @@
 <template>
-  <NuxtLink :to="`/search/${user.id}`" class="link">
+  <NuxtLink :to="`/search/${user.id}`" class="link text-primary">
     <section :id="id" class="user-card">
       <p class="--name">{{ user.name }}</p>
-      <div class="--interests" :style="`--interests-amount: ${firsts3Interests?.length || 1}`">
-        <p v-for="(interest, index) in firsts3Interests" :key="`card_${id}_interests_${index}`" class="chip text-caption">{{ interest }}</p>
-      </div>
+      <v-chip-group class="--interests " :style="`--interests-amount: ${firsts3Interests?.length || 1}`">
+        <v-chip v-for="(interest, index) in firsts3Interests" :key="`card_${id}_interests_${index}`" class="chip text-caption">{{ interest }}</v-chip>
+      </v-chip-group>
     </section>
   </NuxtLink>
 </template>
@@ -36,11 +36,11 @@ const firsts3Interests = props.user.profile?.interests.slice(0, 3)
     }
 
     .--interests {
-      display: flex;
+      /*  display: flex;
       justify-content: right;
       width: auto;
-      gap: 5px;
-      .chip {
+      gap: 5px; */
+      /* .chip {
         background-color: $clr-secondary;
         font-style: italic;
         white-space: nowrap;
@@ -51,7 +51,7 @@ const firsts3Interests = props.user.profile?.interests.slice(0, 3)
         color: $clr-background;
         width: fit-content;
         max-width: calc(100% / var(--interests-amount) - 20px);
-      }
+      } */
     }
   }
 }

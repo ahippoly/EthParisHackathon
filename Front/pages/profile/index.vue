@@ -123,6 +123,11 @@
       </div>
     </section>
 
+    <v-checkbox
+      v-model="profileFormData.openOnlyToThoseMatchingSearch"
+      label="I want to only be visible by users that matches my criterias"
+    ></v-checkbox>
+
     <!-- SUBMIT -->
     <v-btn class="--submit" variant="elevated" @click="saveProfile()">Save profile</v-btn>
     <v-dialog v-model="passPhraseDialogOpened">
@@ -154,12 +159,11 @@
 <script lang="ts" setup>
 import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-datas'
 import { InputVariants } from '@/assets/ts/enums/style'
-import { User, UserProfile } from '@/assets/ts/classes/user'
 import { createUserWallet, encryptPrivateKey } from '~~/modules/ethers/ethersUtilsForXMTP'
 
 definePageMeta({ middleware: ['is-logged-in'] })
 
-type TProfileFormData = IUserProfile & { name: string; description: string; goals: string[] }
+type TProfileFormData = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & IUserProfile
 
 const user = useSessionStore().getUser()
 const passPhraseDialogOpened = ref<boolean>(false)
@@ -174,7 +178,8 @@ const profileFormData = reactive<TProfileFormData>({
   langs: user?.profile?.langs || [],
   interests: user?.profile?.interests || [],
   skills: user?.profile?.skills || [],
-  balance: user?.profile?.balance || 0
+  balance: user?.profile?.balance || 0,
+  openOnlyToThoseMatchingSearch: user?.openOnlyToThoseMatchingSearch || false
 })
 
 /* >==== INPUTS ERROR MANAGEMENT ====> */
@@ -203,7 +208,7 @@ const errors = reactive<Record<keyof TProfileFormData, { message: string; valida
   country: {
     message: '',
     validator: () => {
-      errors.country.message = profileFormData.country.length ? '' : "You must indicate the country you're living in"
+      errors.country.message = profileFormData.country && profileFormData.country.length ? '' : "You must indicate the country you're living in"
     }
   },
   langs: {
@@ -224,6 +229,10 @@ const errors = reactive<Record<keyof TProfileFormData, { message: string; valida
       errors.skills.message = profileFormData.skills.length ? '' : 'You must provide at least 1 skill'
     }
   },
+  openOnlyToThoseMatchingSearch: {
+    message: '',
+    validator: () => true
+  },
   balance: {
     message: '',
     validator: () => {
@@ -240,7 +249,7 @@ function saveProfile() {
   passPhraseDialogOpened.value = true
 
   // if not, save
-  if (user) updateUser(user)
+  if (user) updateUser()
 }
 
 function passPhraseHasError() {
@@ -257,12 +266,15 @@ function preCheckProfile() {
   return true
 }
 
-function updateUser(user: User) {
-  user.setName(profileFormData.name)
-  user.setDescription(profileFormData.description)
-  user.setGoals(profileFormData.goals)
-
-  user.setProfile(UserProfile.fromIUserProfile(profileFormData))
+function updateUser() {
+  const { name, description, goals, country, langs, interests, skills, openOnlyToThoseMatchingSearch, balance } = profileFormData
+  useAPI().users.updateProfile('some-id-mask', {
+    name,
+    description,
+    goals,
+    openOnlyToThoseMatchingSearch,
+    profileData: { country, langs, interests, skills, balance }
+  })
 
   const newWallet = createUserWallet()
 
@@ -296,7 +308,7 @@ function updateUser(user: User) {
   #profile-form {
     display: flex;
     justify-content: center;
-    align-items: start;
+    align-items: flex-start;
     gap: 25px;
     width: clamp(200px, 800px, 90vw);
 
@@ -308,7 +320,19 @@ function updateUser(user: User) {
 
         .--group-name {
           margin-bottom: 15px;
-          text-decoration: underline;
+          padding-bottom: 5px;
+          width: 100%;
+          position: relative;
+
+          &::after {
+            content: '';
+            height: 1px;
+            width: 100%;
+            position: absolute;
+            background-color: white;
+            bottom: 0;
+            left: 0;
+          }
         }
 
         & + .--group {
