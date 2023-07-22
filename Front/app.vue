@@ -1,5 +1,7 @@
 <template>
   <section id="page-layout">
+    <session-manager />
+
     <NuxtPage />
 
     <v-layout v-if="value !== '/'" class="overflow-visible" style="height: 56px;">

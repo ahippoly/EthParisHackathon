@@ -159,7 +159,7 @@
 <script lang="ts" setup>
 import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-datas'
 import { InputVariants } from '@/assets/ts/enums/style'
-import { createUserWallet, encryptPrivateKey } from '~~/modules/ethers/ethersUtilsForXMTP'
+import { createUserWallet, encryptPrivateKey } from '@/modules/ethers/ethersUtilsForXMTP'
 
 definePageMeta({ middleware: ['is-logged-in'] })
 
@@ -268,7 +268,11 @@ function preCheckProfile() {
 
 function updateUser() {
   const { name, description, goals, country, langs, interests, skills, openOnlyToThoseMatchingSearch, balance } = profileFormData
-  useAPI().users.updateProfile('some-id-mask', {
+
+  const idMask = useSessionStore().getIdMask()
+  if (!idMask) return
+
+  useAPI().users.updateProfile(idMask, {
     name,
     description,
     goals,

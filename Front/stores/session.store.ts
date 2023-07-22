@@ -16,8 +16,9 @@ export const useSessionStore = defineStore({
   id: 'session',
   state: () => storedData,
   actions: {
-    logIn(user: User) {
+    logIn(user: User, idMask: string) {
       this.user = user
+      this.idMask = idMask
     },
     setUser(user: User) {
       this.user = user
@@ -33,6 +34,7 @@ export const useSessionStore = defineStore({
     },
     logOut() {
       this.user = null
+      this.idMask = null
     }
   },
   getters: {

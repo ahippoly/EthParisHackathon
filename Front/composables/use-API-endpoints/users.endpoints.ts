@@ -28,11 +28,9 @@ export class UsersEndpoints {
 
     if (!data || error) return { data: null, error }
 
-    console.log({ data })
-
     // get new User back as pojos
     const registedUser = User.fromIUser(data)
-    useSessionStore().logIn(registedUser)
+    useSessionStore().logIn(registedUser, idMask)
 
     return { data: registedUser, error }
   }
@@ -48,7 +46,7 @@ export class UsersEndpoints {
 
     const userInstance = User.fromIUser(data)
 
-    useSessionStore().logIn(userInstance)
+    useSessionStore().logIn(userInstance, idMask)
 
     return { data: userInstance, error: null }
   }
