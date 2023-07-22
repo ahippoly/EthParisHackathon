@@ -68,12 +68,12 @@ import { User, UserSearch } from '@/assets/ts/classes/user'
 
 definePageMeta({ middleware: ['is-logged-in'] })
 
-type TProfileFormData = IUserSearch
+type TSearchFormData = IUserSearch
 
 const user = useSessionStore().getUser()
 
 /* >==== INPUTS VALUE ====> */
-const searchFormData = reactive<TProfileFormData>({
+const searchFormData = reactive<TSearchFormData>({
   minimumBalance: user?.search?.minimumBalance || 0,
   country: user?.search?.country || ('' as Countries),
   langs: user?.search?.langs || [],
