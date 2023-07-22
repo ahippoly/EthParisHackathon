@@ -21,6 +21,6 @@ declare global {
   }
 
   interface IUserSearch extends Partial<IUserProfile> {
-    minimumBalance: number
+    minimumBalance?: number
   }
 }
