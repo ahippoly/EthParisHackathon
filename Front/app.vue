@@ -1,5 +1,5 @@
 <template>
-  <section id="page-layout" class="--bg --primary">
+  <section id="page-layout" class="--bg">
     <NuxtPage />
   </section>
 </template>

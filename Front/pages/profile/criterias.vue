@@ -1,6 +1,6 @@
 <template>
   <section id="search-criterias" class="--page">
-    <h1 class="main-title text-h4">My Search Criterias</h1>
+    <h1 class="text-h4">My Search Criterias</h1>
 
     <section id="search-criterias-form">
       <!-- MINIUM BALANCE -->
