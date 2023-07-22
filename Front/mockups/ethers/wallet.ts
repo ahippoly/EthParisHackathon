@@ -22,3 +22,5 @@ export const exampleWallet5 = {
   address: '0x10507aE6c35469E8270660aF4E1Df172b387dcFC',
   privateKey: '22b97e065de0dd00a411c7e00cddbfc7b67a84193157a0ada29c687b701a8b00'
 }
+
+export const wallets = [exampleWallet1, exampleWallet2, exampleWallet3, exampleWallet4, exampleWallet5]

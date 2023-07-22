@@ -25,6 +25,15 @@ h1, h2, h3, h4, h5, h6, p, a, small {
   }
 }
 
+h1, h2, h3, h4, h5, h6, div
+{
+  font-family: 'Montserrat';
+}
+
+p, span, small, input, div, textarea {
+  font-family: 'Nunito';
+}
+
 .--italic {
   font-style: italic;
 }
