@@ -1,9 +1,9 @@
 import { Countries, Interests, Langs, Skills } from '@/common/enums/meta-datas'
-import { IsEnum, IsOptional, IsPositive } from 'class-validator'
+import { IsEnum, IsOptional, Min } from 'class-validator'
 
 export class SearchDataRequest {
   @IsOptional()
-  @IsPositive({ message: 'The minimum balance must be a positive number' })
+  @Min(0, { message: 'The minimum balance must be a positive number' })
   minimumBalance?: number
 
   @IsOptional()

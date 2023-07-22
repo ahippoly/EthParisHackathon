@@ -77,7 +77,6 @@
 
 <script lang="ts" setup>
 import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-datas'
-import { User, UserSearch } from '@/assets/ts/classes/user'
 
 definePageMeta({ middleware: ['is-logged-in'] })
 
@@ -114,11 +113,11 @@ function saveSearch() {
   if (isThereErrors) return
 
   // if not, save
-  if (user) updateSearch(user)
+  updateSearch()
 }
 
-function updateSearch(user: User) {
-  user.setSearch(UserSearch.fromIUserSearch(searchFormData))
+function updateSearch() {
+  useAPI().users.updateSearch('some-id-mask', searchFormData)
 }
 </script>
 

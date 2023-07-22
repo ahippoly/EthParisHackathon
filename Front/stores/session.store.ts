@@ -17,6 +17,9 @@ export const useSessionStore = defineStore({
     logIn(user: User) {
       this.user = user
     },
+    setUser(user: User) {
+      this.user = user
+    },
     getUser() {
       return this.user ? User.fromRawUser(this.user) : null
     },
