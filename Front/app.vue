@@ -1,5 +1,5 @@
 <template>
-  <section id="page-layout" class="bg-black">
+  <section id="page-layout">
     <NuxtPage />
   </section>
 </template>
@@ -10,3 +10,9 @@ import { useTheme } from 'vuetify'
 
 useTheme()
 </script>
+
+<style lang="scss" scoped>
+#page-layout {
+  background-color: $clr-background-alt;
+}
+</style>

@@ -6,7 +6,7 @@ const themes: Record<string, ThemeDefinition> = {
   harpos: {
     dark: false,
     colors: {
-      background: '#090909',
+      background: '#2A2B2A',
       surface: '#FFFFFF',
       primary: '#76D3FF',
       secondary: '#6B22CF',

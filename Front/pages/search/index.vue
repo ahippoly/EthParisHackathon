@@ -1,8 +1,9 @@
 <template>
   <section id="search" class="--page">
-    <section id="user-cards">
+    <h1 class="main-title text-h4">The&nbsp;most relevant&nbsp;holders for&nbsp;you</h1>
+    <v-expansion-panels id="user-cards" variant="popout">
       <user-card v-for="(user, index) in relevantUsers" :key="`user-card-${index}`" class="--card" :user="user" />
-    </section>
+    </v-expansion-panels>
   </section>
 </template>
 
@@ -26,17 +27,57 @@ fetchRelevantUsers()
   padding: 50px 20px;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: left;
   align-items: center;
 
+  .main-title {
+    margin-bottom: 50px;
+    padding-bottom: 20px;
+    width: fit-content;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase !important;
+
+    &::after {
+      content: '';
+      height: 1px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: white;
+    }
+  }
+
   #user-cards {
-    width: clamp(200px, 70%, 95vw);
+    width: clamp(300px, 80%, 95vw);
 
     .--card {
       & + .--card {
         margin-top: 10px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #search {
+    padding: 20px;
+
+    .main-title {
+      font-size: 25px !important;
+    }
+
+    #user-cards {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  #search {
+    padding: 20px 10px;
   }
 }
 </style>
