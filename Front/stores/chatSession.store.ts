@@ -19,6 +19,9 @@ export const useChatSessionStore = defineStore({
     async createClient(secretPhrase: string, privateKey: string) {
       this.client = await createClient(getOrCreateUserWallet(secretPhrase, privateKey))
     },
+    updateClient(client: Client) {
+      this.client = client
+    },
     async getClient() {
       return this.client
     }
