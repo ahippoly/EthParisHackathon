@@ -4,10 +4,12 @@ import { User } from '@/assets/ts/classes/user'
 
 export interface ISessionStore {
   user: User | null
+  idMask: string | null
 }
 
 const storedData: ISessionStore = {
-  user: null
+  user: null,
+  idMask: null
 }
 
 export const useSessionStore = defineStore({
@@ -22,6 +24,12 @@ export const useSessionStore = defineStore({
     },
     getUser() {
       return this.user ? User.fromRawUser(this.user) : null
+    },
+    setIdMask(idMask: string) {
+      this.idMask = idMask
+    },
+    getIdMask() {
+      return this.idMask
     },
     logOut() {
       this.user = null

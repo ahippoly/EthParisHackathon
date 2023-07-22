@@ -29,16 +29,14 @@ export class SismoService {
     this.sismoConnect = SismoConnect({ config: this.config })
   }
 
-  public async verifyResponse(res: SismoConnectResponse): Promise<void> {
+  public async verifyResponse(res: SismoConnectResponse): Promise<string | undefined> {
     const result: SismoConnectVerifiedResult = await this.sismoConnect.verify(res, {
       auths: [{ authType: AuthType.VAULT }],
       claims: [this.groupClaim],
     })
 
-    console.log('🦋 | verifyResponse | result', result)
-
     const vaultId = result.getUserId(AuthType.VAULT)
 
-    console.log('🦋 | verifyResponse | vaultId', vaultId)
+    return vaultId
   }
 }
