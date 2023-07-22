@@ -1,6 +1,6 @@
 <template>
   <section id="search" class="--page">
-    <h1 class="main-title text-h4">The&nbsp;most relevant&nbsp;holders for&nbsp;you</h1>
+    <h1 class="main-title text-h4">Relevant Holders</h1>
     <v-expansion-panels id="user-cards" variant="popout">
       <user-card v-for="(user, index) in relevantUsers" :key="`user-card-${index}`" class="--card" :user="user" />
     </v-expansion-panels>
@@ -33,21 +33,10 @@ fetchRelevantUsers()
 
   .main-title {
     margin-bottom: 50px;
-    padding-bottom: 20px;
-    width: fit-content;
+    width: calc(100% - 32px);
     position: relative;
-    text-align: center;
-    text-transform: uppercase !important;
-
-    &::after {
-      content: '';
-      height: 1px;
-      width: 100%;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      background-color: white;
-    }
+    text-transform: capitalize !important;
+    color: white !important;
   }
 
   #user-cards {

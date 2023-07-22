@@ -9,8 +9,7 @@ export class SismoController {
   constructor(private readonly sismoService: SismoService) {}
 
   @Post('verify')
-  public async verifySismoResponse(@Body() sismoConnectResponse: SismoConnectResponse): Promise<void> {
-    console.log('sismoConnectResponse', sismoConnectResponse)
+  public async verifySismoResponse(@Body() sismoConnectResponse: SismoConnectResponse): Promise<string | undefined> {
     return await this.sismoService.verifyResponse(sismoConnectResponse)
   }
 }

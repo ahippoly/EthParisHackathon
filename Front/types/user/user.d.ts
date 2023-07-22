@@ -20,6 +20,7 @@ declare global {
     langs: Langs[]
     interests: Interests[]
     skills: Skills[]
+    balance: number
   }
 
   interface IUserSearch extends Partial<IUserProfile> {

@@ -16,7 +16,7 @@ const sismoConnect = SismoConnect({ config })
 const groupClaim: ClaimRequest = {
   groupId,
   value: 1,
-  claimType: ClaimType.GTE
+  claimType: ClaimType.GTE,
 }
 
 export class SismoEndpoints {
@@ -32,10 +32,20 @@ export class SismoEndpoints {
 
     if (!sismoResponse) return null
 
-    const res = await useRequest().post<any>('/sismo/verify', {
-      body: sismoResponse
+    const res = await useRequest().post<string | undefined>('/sismo/verify', {
+      body: sismoResponse,
     })
 
-    console.log('🦋 | SismoEndpoints | res | res', res)
+    const vaultId = res.data
+
+    if (vaultId) {
+      useSessionStore().setIdMask(vaultId)
+      const user = await useAPI().users.logIn(vaultId)
+      if (user.data) {
+        useRouter().push('/chats')
+      } else {
+        useRouter().push('/register')
+      }
+    }
   }
 }

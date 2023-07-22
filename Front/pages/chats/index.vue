@@ -21,7 +21,6 @@ const walletNum = ref<string>('')
 const chatPageId = ref<string>('')
 
 const updateChatPage = (id: string) => {
-  console.log('newId = ', id)
   chatPageId.value = id
 }
 
