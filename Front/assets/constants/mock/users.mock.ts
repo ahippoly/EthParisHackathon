@@ -2,7 +2,7 @@ import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-data
 import { exampleWallet1, exampleWallet2, exampleWallet3, exampleWallet4, exampleWallet5 } from '~~/mockups/ethers/wallet'
 
 export const loggedUser: IUser = {
-  id: 'some-cismo-id',
+  _id: 'some-cismo-id',
   name: 'DarkSasukeu93',
   description: "J'espère devinir milliardaire en jouant au loto et en pariant mon salaire sur Mbape tous les mois",
   goals: ['Devenir riche', 'Soulever un max de belettes'],
@@ -24,7 +24,7 @@ export const loggedUser: IUser = {
 
 export const relevantUsers: IUser[] = [
   {
-    id: 'some-cismo-id-1',
+    _id: 'some-cismo-id-1',
     name: 'ArcherBrutal',
     description: "Je peux pas, j'ai Destiny",
     goals: ['Finir 140 000 fois chaque raid de Destiny', 'et les finir encore'],
@@ -45,7 +45,7 @@ export const relevantUsers: IUser[] = [
     xmtpPublicAddress: exampleWallet1.address
   },
   {
-    id: 'some-cismo-id-2',
+    _id: 'some-cismo-id-2',
     name: 'Kimimao',
     description: "C'est pas moi c'est la poele",
     goals: ['être le meilleur dresseur', 'relever tous les défis'],
@@ -66,7 +66,7 @@ export const relevantUsers: IUser[] = [
     xmtpPublicAddress: exampleWallet2.address
   },
   {
-    id: 'some-cismo-id-3',
+    _id: 'some-cismo-id-3',
     name: 'Wolfknight',
     description: 'être la plus belle',
     goals: ['arrêter de faire pleuvoir'],
@@ -87,7 +87,7 @@ export const relevantUsers: IUser[] = [
     xmtpPublicAddress: exampleWallet3.address
   },
   {
-    id: 'some-cismo-id-4',
+    _id: 'some-cismo-id-4',
     name: 'Skolak',
     description: 'tous les niquer sur rocket leage',
     goals: ['comprendre comment on avance'],
@@ -108,7 +108,7 @@ export const relevantUsers: IUser[] = [
     xmtpPublicAddress: exampleWallet4.address
   },
   {
-    id: 'some-cismo-id-5',
+    _id: 'some-cismo-id-5',
     name: 'BobyC',
     description: 'Vous connaissez king of the hat',
     goals: ['turbo clutch le hackaton'],
