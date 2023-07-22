@@ -49,6 +49,9 @@ export const listAllMessageInConversation = async (client: Client, conversation:
 
 export const listenAndProcessNewConversation = async (client: Client, conversationListToFeed: Ref<Conversation[]>): Promise<void> => {
   if (isListeningNewConversation) return
+  const existingConversations = await client.conversations.list()
+  conversationListToFeed.value = existingConversations
+
   const stream = await client.conversations.stream()
   isListeningNewConversation = true
   for await (const conversation of stream) {
@@ -62,15 +65,19 @@ export const stopListeningNewConversation = () => {
   isListeningNewConversation = false
 }
 
-export const stopListeningMessageForConversation = () => {
-  // isListeningNewConversation = false
+export const stopListeningMessageForConversation = (peerAddress: string) => {
+  messageListenerActiveByConversation[peerAddress] = false
 }
 
 export const stopListeningMessageForAllConversation = () => {
-  // isListeningNewConversation = false
+  Object.keys(messageListenerActiveByConversation).forEach((key) => {
+    messageListenerActiveByConversation[key] = false
+  })
 }
 
-export const sendMessage = (conversation: Conversation, message: string) => {}
+export const sendMessage = async (conversation: Conversation, message: string) => {
+  await conversation.send(message)
+}
 
 export const createClient = async (wallet: Signer): Promise<Client> => {
   return await Client.create(wallet)
