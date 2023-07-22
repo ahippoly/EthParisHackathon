@@ -1,18 +1,20 @@
-import { Countries } from "./meta-datas/countries"
-import { Interests } from "./meta-datas/interests"
-import { Langs } from "./meta-datas/langs"
-import { Skills } from "./meta-datas/skills"
+import { Countries } from "../../assets/ts/enums/meta-datas/countries"
+import { Interests } from "../../assets/ts/enums/meta-datas/interests"
+import { Langs } from "../../assets/ts/enums/meta-datas/langs"
+import { Skills } from "../../assets/ts/enums/meta-datas/skills"
 
 export {}
 
 declare global {
-  interface IUser {
+
+  interface IUser extends IBaseUser {
     _id: string
     name: string
     description: string
     goals: string[]
-    profile: IUserProfile
-    search: IUserSearch
+    profile?: IUserProfile
+    search?: IUserSearch
+    openOnlyToThoseMatchingSearch: boolean
   }
 
   interface IUserProfile {

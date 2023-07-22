@@ -1,9 +1,7 @@
 <template>
-  <v-app>
-    <section id="page-layout">
-      <NuxtPage />
-    </section>
-  </v-app>
+  <section id="page-layout" class="--bg --primary">
+    <NuxtPage />
+  </section>
 </template>
 
 <script lang="ts" setup>

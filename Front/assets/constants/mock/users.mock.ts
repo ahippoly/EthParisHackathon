@@ -1,7 +1,4 @@
-import { Countries } from "@/types/user/meta-datas/countries";
-import { Interests } from "@/types/user/meta-datas/interests";
-import { Langs } from "@/types/user/meta-datas/langs";
-import { Skills } from "@/types/user/meta-datas/skills";
+import { Countries, Interests, Langs, Skills } from "@/assets/ts/enums/meta-datas";
 
 export const loggedUser: IUser = {
   _id: 'some-cismo-id',
@@ -20,5 +17,6 @@ export const loggedUser: IUser = {
     langs: [Langs.FRENCH, Langs.ENGLISH],
     interests: [Interests.DAVE_RAMSEY, Interests.WEB_DEV, Interests.FULL_STACK_DEV],
     skills: [Skills.WEB_DEVELOPMENT, Skills.FRONT_END_DEVELOPMENT, Skills.FULL_STACK_DEVELOPMENT]
-  }
+  },
+  openOnlyToThoseMatchingSearch: true
 }
