@@ -228,7 +228,6 @@ function updateUser(user: User) {
       content: '';
       height: 1px;
       width: 100%;
-      background-color: $clr-text;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -259,14 +258,9 @@ function updateUser(user: User) {
         }
       }
 
-      .--input {
-        color: $clr-text !important;
-      }
-
       .goals {
         .add-goal-btn {
           text-transform: capitalize;
-          color: $clr-text !important;
         }
       }
     }

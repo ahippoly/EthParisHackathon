@@ -6,38 +6,29 @@ html {
 
 body {
   font-family: 'Kanit', sans-serif !important;
-  background-color: white;
+  // background-color: white;
 }
 
-h1, h2, h3, h4, h5, h6, p, a, small {
-  color: $clr-text
-}
+// h1, h2, h3, h4, h5, h6, p, a, small {
+//   color: $clr-text
+// }
 
-.--bg {
-  background-color: $clr-background;
+// .--bg {
+//   background-color: $clr-background;
 
-  &.--primary {
-    background-color: $clr-primary;
-  }
+//   &.--primary {
+//     background-color: $clr-primary;
+//   }
 
-  &.--secondary {
-    background-color: $clr-secondary;
-  }
-}
+//   &.--secondary {
+//     background-color: $clr-secondary;
+//   }
+// }
 
-h1, h2, h3, h4, h5, h6, div
-{
-  font-family: 'Montserrat';
-}
+// .--italic {
+//   font-style: italic;
+// }
 
-p, span, small, input, div, textarea {
-  font-family: 'Nunito';
-}
-
-.--italic {
-  font-style: italic;
-}
-
-.--bold {
-  font-weight: bold;
-}
+// .--bold {
+//   font-weight: bold;
+// }
