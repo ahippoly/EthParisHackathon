@@ -1,9 +1,9 @@
-import { loggedUser } from "@/assets/constants/mock/users.mock";
-import { User } from "@/assets/ts/classes/user";
+import { loggedUser, relevantUsers } from '@/assets/constants/mock/users.mock'
+import { User } from '@/assets/ts/classes/user'
 
 export class UsersEndpoints {
   static async register(id: string): Promise<User> {
-    const user =  new User(id)
+    const user = new User(id)
     useSessionStore().logIn(user)
 
     return user
@@ -25,5 +25,9 @@ export class UsersEndpoints {
 
   static async logOut(): Promise<void> {
     useSessionStore().logOut()
+  }
+
+  static async getRelevantProfiles(): Promise<User[]> {
+    return relevantUsers.map((user) => User.fromIUser(user))
   }
 }
