@@ -1,15 +1,10 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
 import { Buffer } from "buffer";
 
 export default defineConfig({
   plugins: [
-    AutoImport({
-      imports: ['vue', 'pinia'],
-      dirs: ['./stores', './composables']
-    }),
     vue()
   ],
   test: {

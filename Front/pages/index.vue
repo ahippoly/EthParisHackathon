@@ -1,6 +1,6 @@
 <template>
   <section id="home-page" class="--page">
-    <v-btn v-if="!isLoggedIn" id="login-btn" @click="logIn" variant="elevated">Log In</v-btn>
+    <v-btn v-if="!isLoggedIn" id="login-btn" variant="elevated" @click="logIn">Log In</v-btn>
     <v-btn v-else id="login-btn" @click="logOut">Log Out</v-btn>
 
     <section class="content">
@@ -14,8 +14,12 @@
 <script lang="ts" setup>
 const isLoggedIn = computed(() => useSessionStore().isLoggedIn)
 
-function logIn() { console.log('salut'); useAPI().users.logIn() }
-function logOut() { useAPI().users.logOut() }
+function logIn() {
+  useAPI().users.logIn()
+}
+function logOut() {
+  useAPI().users.logOut()
+}
 </script>
 
 <style lang="scss" scoped>

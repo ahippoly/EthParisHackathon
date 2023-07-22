@@ -1,13 +1,9 @@
-import { Countries } from "../../assets/ts/enums/meta-datas/countries"
-import { Interests } from "../../assets/ts/enums/meta-datas/interests"
-import { Langs } from "../../assets/ts/enums/meta-datas/langs"
-import { Skills } from "../../assets/ts/enums/meta-datas/skills"
+import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-datas'
 
 export {}
 
 declare global {
-
-  interface IUser extends IBaseUser {
+  interface IUser {
     _id: string
     name: string
     description: string

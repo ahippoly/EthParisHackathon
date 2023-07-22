@@ -9,6 +9,7 @@ const themes: Record<string, ThemeDefinition> = {
       background: '#2C0735',
       primary: '#4E148C',
       secondary: '#03DAC6',
+      text: '#FFE047',
       action: '#FFE047'
     }
   }
@@ -22,6 +23,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     defaults: {
       VBtn: {
         color: 'action',
+        variant: 'outlined'
+      },
+      vInput: {
+        color: 'text',
         variant: 'outlined'
       }
     },

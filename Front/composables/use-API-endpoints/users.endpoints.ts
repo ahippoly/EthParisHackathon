@@ -10,14 +10,14 @@ export class UsersEndpoints {
   }
 
   static async logIn(): Promise<User> {
-    const user = User.of(loggedUser)
+    const user = User.fromIUser(loggedUser)
     useSessionStore().logIn(user)
 
     return user
   }
 
   static async getProfile(): Promise<User> {
-    const user = User.of(loggedUser)
+    const user = User.fromIUser(loggedUser)
     useSessionStore().logIn(user)
 
     return user
