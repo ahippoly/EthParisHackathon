@@ -31,6 +31,7 @@ import { Client, Conversation } from '@xmtp/xmtp-js'
 import { getEthersSigner } from '@/modules/ethers/walletClientToSigner'
 
 import { AuthRequest, AuthType, ClaimRequest, ClaimType, SismoConnect, SismoConnectConfig } from '@sismo-core/sismo-connect-client'
+import { ethers } from 'ethers'
 
 const messageWith = ref<string>('')
 const messageToSend = ref<string>('')
@@ -39,14 +40,22 @@ let xmtpClient: Client | undefined = undefined
 let currentConversation: Conversation
 
 const ConnectToWallet = async () => {
-  const connectResult = await connect({
-    connector: new InjectedConnector()
-  })
+  // const connectResult = await connect({
+  //   connector: new InjectedConnector()
+  // })
 
   try {
-    const signer = await getEthersSigner({ chainId: 1 })
+    // const signer = await getEthersSigner({ chainId: 1 })
+    const signer = ethers.Wallet.createRandom()
     console.log('🚀 ~ file: index.vue:25 ~ ConnectToWal ~ signer:', signer)
     xmtpClient = await Client.create(signer!, { env: 'dev' })
+    console.log('🚀 ~ file: test.vue:50 ~ ConnectToWal ~ xmtpClient:', xmtpClient)
+
+    const keys = await Client.getKeys(signer!)
+    console.log('🚀 ~ file: test.vue:52 ~ ConnectToWal ~ keys:', keys)
+
+    // xmtpClient = await Client.create(null, { env: 'dev', privateKeyOverride: keys })
+    console.log('🚀 ~ file: test.vue:55 ~ ConnectToWal ~ newClient:', xmtpClient)
     console.log('🚀 ~ file: index.vue:28 ~ ConnectToWal ~ xmtp:', xmtpClient)
   } catch (err) {
     console.log('errr = ', err)
