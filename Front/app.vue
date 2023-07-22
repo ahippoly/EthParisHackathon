@@ -1,5 +1,5 @@
 <template>
-  <section id="page-layout">
+  <section class="bg-black">
     <session-manager />
 
     <NuxtPage />
