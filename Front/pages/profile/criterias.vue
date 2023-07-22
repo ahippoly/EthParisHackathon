@@ -21,7 +21,7 @@
         :items="Object.values(Langs)"
         base-color="#F2E9E4"
         color="#F2E9E4"
-        label="Spoken Languages"
+        label="Languages"
         multiple
         chips
         closable-chips
