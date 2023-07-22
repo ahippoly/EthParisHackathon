@@ -1,10 +1,21 @@
 <template>
-  <section class="--page">
-    <h3>Your active conversations</h3>
-    <section class="chat-list">
-      <v-progress-circular v-if="isLoading" class="loader" indeterminate :size="115" :width="5"></v-progress-circular>
-      <v-btn v-for="peerUser in peerUsers" :key="peerUser._id" @click="goToChatPage(peerUser._id)">{{ peerUser.name }}</v-btn>
-    </section>
+  <section class="d-flex flex-column">
+    <h3 class="title-h3 text-center ma-4">Active conversations</h3>
+
+    <div v-if="isLoading" class="d-flex justify-center mt-8">
+      <v-progress-circular indeterminate :size="115" :width="5"></v-progress-circular>
+    </div>
+
+    <v-card class="ma-2 text-primary" v-for="peerUser in peerUsers" :key="peerUser._id" @click="goToChatPage(peerUser._id)" variant="outlined">
+      <v-card-item>
+        <div>
+          <div class="text-h6 mb-1">
+            {{ peerUser.name }}
+          </div>
+          <div class="text-caption">{{ peerUser.profile?.country }}</div>
+        </div>
+      </v-card-item>
+    </v-card>
   </section>
 </template>
 
@@ -54,16 +65,3 @@ const goToChatPage = (id: string) => {
   emits('goToChatPage', id)
 }
 </script>
-
-<style lang="scss" scoped>
-.chat-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: stretch;
-}
-
-.loader {
-  align-self: center;
-}
-</style>
