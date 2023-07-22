@@ -1,6 +1,7 @@
 // must be explicitly imported for vitest unit testing
 import { defineStore } from 'pinia'
-import { ALERT_MODES, ALERT_STATUSES, DEFAULT_REQUEST_ERROR_MESSAGE, DEFAULT_REQUEST_SUCCESS_MESSAGE } from '@/types/constants'
+import { DEFAULT_REQUEST_ERROR_MESSAGE, DEFAULT_REQUEST_SUCCESS_MESSAGE } from '@/types/APIs/requests'
+import { AlertModes, AlertStatuses } from '@/types/stores/alert-store'
 
 export const useAlertStore = defineStore({
   id: 'alert',
@@ -30,13 +31,13 @@ export const useAlertStore = defineStore({
      */
     handleRequestResult(alertControl?: IAlertControl | null, error?: IRequestError | null) {
       // no alert required
-      if (!alertControl || alertControl.mode === ALERT_MODES.NONE) return
+      if (!alertControl || alertControl.mode === AlertModes.NONE) return
       // there is an error and only successful request require alert
-      if (error && alertControl.mode !== ALERT_MODES.ALL && alertControl.mode !== ALERT_MODES.ON_ERROR) return
+      if (error && alertControl.mode !== AlertModes.ALL && alertControl.mode !== AlertModes.ON_ERROR) return
       // there is no error and only failed request require alert
-      if (!error && alertControl.mode !== ALERT_MODES.ALL && alertControl.mode !== ALERT_MODES.ON_SUCCESS) return
+      if (!error && alertControl.mode !== AlertModes.ALL && alertControl.mode !== AlertModes.ON_SUCCESS) return
 
-      const status = error ? ALERT_STATUSES.ERRROR : ALERT_STATUSES.SUCCESS
+      const status = error ? AlertStatuses.ERRROR : AlertStatuses.SUCCESS
       const message = error
         ? alertControl.errorMsg || error.message || DEFAULT_REQUEST_ERROR_MESSAGE
         : alertControl.successMsg || DEFAULT_REQUEST_SUCCESS_MESSAGE

@@ -20,5 +20,6 @@ export const loggedUser: IUser = {
     langs: [Langs.FRENCH, Langs.ENGLISH],
     interests: [Interests.DAVE_RAMSEY, Interests.WEB_DEV, Interests.FULL_STACK_DEV],
     skills: [Skills.WEB_DEVELOPMENT, Skills.FRONT_END_DEVELOPMENT, Skills.FULL_STACK_DEVELOPMENT]
-  }
+  },
+  openOnlyToThoseMatchingSearch: true
 }

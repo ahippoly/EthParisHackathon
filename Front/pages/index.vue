@@ -3,7 +3,7 @@
     <section class="content">
       <h1 class="main-title text-h1">HARPOS</h1>
       <h2 class="sub-title text-subtitle-1">Communication between holders</h2>
-      <link-btn id="find-btn">find like-minded partners</link-btn>
+      <link-btn id="find-btn">Find with like-minded partners</link-btn>
     </section>
   </section>
 </template>
