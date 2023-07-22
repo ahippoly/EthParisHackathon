@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-black">
+  <section class="bg-background">
     <session-manager />
 
     <NuxtPage />
@@ -23,7 +23,6 @@ const value = ref(useRoute().path)
 
 const buttons = ref([
   { path: '/search', icon: 'mdi-magnify', caption: 'Search' },
-  { path: '/folks', icon: 'mdi-account-group-outline', caption: 'Folks' },
   { path: '/chats', icon: 'mdi-chat-outline', caption: 'Chats' },
   { path: '/profile', icon: 'mdi-account-outline', caption: 'profile' }
 ])
