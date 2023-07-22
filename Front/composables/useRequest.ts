@@ -27,7 +27,8 @@
  *    https://nuxt.com/docs/api/composables/use-fetch#return-values
  */
 
-import { ALERT_MODES, DEFAULT_REQUEST_ERROR, HTTP_METHODS } from '@/types/constants'
+import { AlertModes } from '@/assets/ts/enums/store'
+import { DEFAULT_REQUEST_ERROR, HTTP_METHODS } from '@/types/APIs'
 
 export const useRequest = () => ({
   /**
@@ -43,7 +44,7 @@ export const useRequest = () => ({
     if (!options.method) throw new Error('An HTTP method must be provided within the options')
 
     // user feeback on request result, defaults to 'on-error'
-    if (!options.alert) options.alert = { mode: ALERT_MODES.ON_ERROR }
+    if (!options.alert) options.alert = { mode: AlertModes.ON_ERROR }
 
     // if no baseUrl is specified, set it to what the url provide if it does, VMC API otherwise
     const envBaseUrl = process.env.NODE_ENV === 'test' ? (import.meta.env.VITE_BASE_API_URL as string) : useRuntimeConfig().BASE_API_URL

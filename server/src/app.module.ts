@@ -4,6 +4,7 @@ import { TypegooseModule } from 'nestjs-typegoose'
 
 import * as process from 'process'
 import { UsersModule } from './API/users/users.module'
+import { SismoModule } from './API/sismo/sismo.module'
 
 const ENV_FOLDER = 'envs'
 
@@ -15,6 +16,7 @@ const ENV_FOLDER = 'envs'
     }),
     TypegooseModule.forRoot(<string>process.env.DB_URI),
     UsersModule,
+    SismoModule,
   ],
   providers: [],
 })
