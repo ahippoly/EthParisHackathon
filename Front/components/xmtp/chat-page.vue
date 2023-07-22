@@ -1,11 +1,14 @@
 <template>
-  <section class="messages-list-page">
-    <h1 class="title">Chating with {{ peerUser?.name }}</h1>
-    <p>address = {{ peerUser?.xmtpPublicAddress }}</p>
-    <section class="message-list">
-      <v-progress-circular v-if="isLoading" class="loader" indeterminate :size="115" :width="5"></v-progress-circular>
-      <p v-for="message in messages" :key="message.id" class="message">{{ message?.content }}</p>
-      <p v-if="messages.length === 0" class="no-message-yet">You have no message for the moment</p>
+  <section class="d-flex flex-column">
+    <h3 class="title-h3 text-center mt-4">Chating with {{ peerUser?.name }}</h3>
+    <p class="text-caption text-center ma-2">{{ peerUser?.xmtpPublicAddress }}</p>
+    <section>
+      <div v-if="isLoading" class="d-flex justify-center mt-8">
+        <v-progress-circular indeterminate :size="115" :width="5"></v-progress-circular>
+      </div>
+      <p v-if="messages.length === 0" class="no-message-yet">Say hello 👋 !</p>
+
+      <v-card class="ma-2 " v-for="message in messages" :key="message.id" :subtitle="peerUser?.name" :text="message?.content" variant="tonal" />
     </section>
     <div class="send-message">
       <v-textarea v-model="writedMessage" auto-grow rows="1" label="Send message" append-icon="mdi-send"></v-textarea>
@@ -81,36 +84,3 @@ const getMessages = async () => {
   listenAndProcessNewMessageInConversation(conversation, messages)
 }
 </script>
-
-<style lang="scss" scoped>
-.title {
-  padding: 20px;
-  margin: 0 auto;
-}
-.messages-list-page {
-  height: 100vh;
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  color: $clr-text;
-}
-
-.send-message {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.no-message-yet {
-  align-self: center;
-  justify-self: center;
-  margin: auto;
-}
-
-.message-list {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-</style>
