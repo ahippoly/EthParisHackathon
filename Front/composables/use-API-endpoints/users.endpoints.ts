@@ -1,10 +1,16 @@
 import { User } from '@/assets/ts/classes/user'
 import { AlertModes } from '~~/assets/ts/enums/store'
 
-export type TRegisterUserPayload = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
+export type TRegisterUserPayload = Omit<
+  IUser,
+  '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey' | 'balance' | 'followers'
+> & {
   profileData: IUserProfile
 }
-export type TUpdateUserPayload = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
+export type TUpdateUserPayload = Omit<
+  IUser,
+  '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey' | 'balance' | 'followers'
+> & {
   profileData: IUserProfile
 }
 

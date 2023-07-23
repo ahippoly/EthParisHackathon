@@ -16,6 +16,19 @@
         @update:model-value="errors.minimumBalance.validator"
       ></v-text-field>
 
+      <!-- MINIUM Followers -->
+      <v-text-field
+        v-model.number="searchFormData.minimumFollowers"
+        class="--input"
+        type="number"
+        step="any"
+        min="0"
+        label="Minimum followers"
+        :error="!!errors.minimumFollowers.message"
+        :error-messages="errors.minimumFollowers.message"
+        @update:model-value="errors.minimumFollowers.validator"
+      ></v-text-field>
+
       <!-- COUNTRY -->
       <v-autocomplete
         v-model="searchFormData.country"
@@ -87,18 +100,26 @@ const user = useSessionStore().getUser()
 /* >==== INPUTS VALUE ====> */
 const searchFormData = reactive<TSearchFormData>({
   minimumBalance: user?.search?.minimumBalance || 0,
+  minimumFollowers: user?.search?.minimumFollowers || 0,
   country: user?.search?.country || ('' as Countries),
   langs: user?.search?.langs || [],
   interests: user?.search?.interests || [],
   skills: user?.search?.skills || []
 })
 
-const errors = reactive<{ minimumBalance: { message: string; validator: (value?: number) => void } }>({
+const errors = reactive({
   minimumBalance: {
     message: '',
     validator: (value?: number) => {
       const newValue = value ?? searchFormData.minimumBalance
       errors.minimumBalance.message = !newValue || newValue >= 0 ? '' : 'You must provide a positive number'
+    }
+  },
+  minimumFollowers: {
+    message: '',
+    validator: (value?: number) => {
+      const newValue = value ?? searchFormData.minimumFollowers
+      errors.minimumFollowers.message = !newValue || newValue >= 0 ? '' : 'You must provide a positive number'
     }
   }
 })
@@ -107,9 +128,10 @@ const errors = reactive<{ minimumBalance: { message: string; validator: (value?:
 function saveSearch() {
   // run validators
   errors.minimumBalance.validator()
+  errors.minimumFollowers.validator()
 
   // check if any error arose
-  const isThereErrors = !!errors.minimumBalance.message
+  const isThereErrors = !!errors.minimumBalance.message || !!errors.minimumFollowers.message
   if (isThereErrors) return
 
   // if not, save

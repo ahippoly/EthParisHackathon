@@ -109,17 +109,6 @@
           :error-messages="(errors.skills.message as String)"
           @update:model-value="errors.skills.validator"
         ></v-autocomplete>
-
-        <v-text-field
-          v-model="profileFormData.balance"
-          class="--input --group"
-          label="USDC token owned (Polygon)"
-          placeholder="this will be verified through sismo"
-          :variant="InputVariants.FILLED"
-          :error="!!errors.balance.message"
-          :error-messages="errors.balance.message"
-          @update:model-value="errors.balance.validator"
-        ></v-text-field>
       </div>
     </section>
 
@@ -165,12 +154,13 @@
 <script lang="ts" setup>
 import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-datas'
 import { InputVariants } from '@/assets/ts/enums/style'
-import { createUserWallet, encryptPrivateKey } from '@/modules/ethers/ethersUtilsForXMTP'
+import { createUserWallet } from '@/modules/ethers/ethersUtilsForXMTP'
 import { encryptKey } from '~~/modules/ethers/keyEncrypter'
 
 definePageMeta({ middleware: ['is-logged-in'] })
 
-type TProfileFormData = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & IUserProfile
+type TProfileFormData = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey' | 'balance' | 'followers'> &
+  IUserProfile
 
 defineProps({
   isUpdatePage: {
@@ -199,7 +189,6 @@ const profileFormData = reactive<TProfileFormData>({
   langs: user?.profile?.langs || [],
   interests: user?.profile?.interests || [],
   skills: user?.profile?.skills || [],
-  balance: user?.profile?.balance || 0,
   openOnlyToThoseMatchingSearch: user?.openOnlyToThoseMatchingSearch || false
 })
 
@@ -253,12 +242,6 @@ const errors = reactive<Record<keyof TProfileFormData, { message: string; valida
   openOnlyToThoseMatchingSearch: {
     message: '',
     validator: () => true
-  },
-  balance: {
-    message: '',
-    validator: () => {
-      errors.balance.message = profileFormData.balance >= 0 ? '' : 'You must provide a positive number'
-    }
   }
 })
 
@@ -300,19 +283,19 @@ function preCheckProfile() {
 }
 
 function updateUser() {
-  const { name, description, goals, country, langs, interests, skills, openOnlyToThoseMatchingSearch, balance } = profileFormData
+  const { name, description, goals, country, langs, interests, skills, openOnlyToThoseMatchingSearch } = profileFormData
 
   useAPI().users.updateProfile({
     name,
     description,
     goals,
     openOnlyToThoseMatchingSearch,
-    profileData: { country, langs, interests, skills, balance }
+    profileData: { country, langs, interests, skills }
   })
 }
 
 async function registerUser() {
-  const { name, description, goals, country, langs, interests, skills, openOnlyToThoseMatchingSearch, balance } = profileFormData
+  const { name, description, goals, country, langs, interests, skills, openOnlyToThoseMatchingSearch } = profileFormData
   const idMask = useSessionStore().getIdMask()
 
   if (!idMask) return
@@ -325,7 +308,7 @@ async function registerUser() {
     description,
     goals,
     openOnlyToThoseMatchingSearch,
-    profileData: { country, langs, interests, skills, balance }
+    profileData: { country, langs, interests, skills }
   })
 
   if (!res.error) {

@@ -130,18 +130,16 @@ export class UserProfile implements IUserProfile {
   private _interests: Interests[]
   private _langs: Langs[]
   private _skills: Skills[]
-  private _balance: number
 
-  constructor(country: Countries, langs: Langs[], interests: Interests[], skills: Skills[], balance: number) {
+  constructor(country: Countries, langs: Langs[], interests: Interests[], skills: Skills[]) {
     this._country = country
     this._langs = langs
     this._interests = interests
     this._skills = skills
-    this._balance = balance
   }
 
   public static fromIUserProfile(userProfile: IUserProfile): UserProfile {
-    return new UserProfile(userProfile.country, userProfile.langs, userProfile.interests, userProfile.skills, userProfile.balance)
+    return new UserProfile(userProfile.country, userProfile.langs, userProfile.interests, userProfile.skills)
   }
 
   public static fromRawUserProfile(userProfile: Record<string, unknown>): UserProfile {
@@ -162,9 +160,6 @@ export class UserProfile implements IUserProfile {
   get skills(): Skills[] {
     return this._skills
   }
-  get balance(): number {
-    return this._balance
-  }
 
   public setCountry(country: Countries): void {
     this._country = country
@@ -178,38 +173,54 @@ export class UserProfile implements IUserProfile {
   public setSkills(skills: Skills[]): void {
     this._skills = skills
   }
-  public setBalance(balance: number): void {
-    this._balance = balance
-  }
 }
 
 export class UserSearch {
   private _minimumBalance?: number
+  private _minimumFollowers?: number
   private _country?: Countries
   private _interests?: Interests[]
   private _langs?: Langs[]
   private _skills?: Skills[]
 
-  constructor(minimumBalance?: number, country?: Countries, langs?: Langs[], interests?: Interests[], skills?: Skills[]) {
+  constructor(minimumBalance?: number, country?: Countries, langs?: Langs[], interests?: Interests[], skills?: Skills[], minimumFollowers?: number) {
     this._minimumBalance = minimumBalance
     this._country = country
     this._langs = langs
     this._interests = interests
     this._skills = skills
+    this._minimumFollowers = minimumFollowers
   }
 
   public static fromIUserSearch(userSearch: IUserSearch): UserSearch {
-    return new UserSearch(userSearch.minimumBalance, userSearch.country, userSearch.langs, userSearch.interests, userSearch.skills)
+    return new UserSearch(
+      userSearch.minimumBalance,
+      userSearch.country,
+      userSearch.langs,
+      userSearch.interests,
+      userSearch.skills,
+      userSearch.minimumFollowers
+    )
   }
 
   public static fromRawUserSearch(userSearch: Record<string, unknown>): UserSearch {
     // @ts-ignore
-    return new UserSearch(userSearch._minimumBalance, userSearch._country, userSearch._langs, userSearch._interests, userSearch._skills)
+    return new UserSearch(
+      userSearch._minimumBalance,
+      userSearch._country,
+      userSearch._langs,
+      userSearch._interests,
+      userSearch._skills,
+      userSearch._minimumFollowers
+    )
   }
 
   /* >==== GETTERS & SETTERS ====> */
   get minimumBalance(): number | undefined {
     return this._minimumBalance
+  }
+  get minimumFollowers(): number | undefined {
+    return this._minimumFollowers
   }
   get country(): Countries | undefined {
     return this._country
