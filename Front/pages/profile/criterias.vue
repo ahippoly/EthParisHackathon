@@ -1,6 +1,11 @@
 <template>
   <section id="search-criterias" class="--page">
-    <h1 class="text-h4">My Search Criterias</h1>
+    <div class="btn-wrapper">
+      <NuxtLink to="/profile" class="link">
+        <v-btn>go to profile</v-btn>
+      </NuxtLink>
+    </div>
+    <h1 class="main-title text-h4">My Search Criterias</h1>
 
     <section id="search-criterias-form">
       <!-- MINIUM BALANCE -->
@@ -117,7 +122,7 @@ function saveSearch() {
 }
 
 function updateSearch() {
-  useAPI().users.updateSearch(searchFormData)
+  useAPI().users.updateSearch({ ...searchFormData, country: searchFormData.country || undefined })
 }
 </script>
 
@@ -129,9 +134,23 @@ function updateSearch() {
   justify-content: center;
   align-items: center;
 
+  .btn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 50px;
+
+    .link {
+      display: block;
+      width: fit-content;
+    }
+  }
+
   .main-title {
-    margin-bottom: 80px;
+    margin-bottom: 50px;
     padding-bottom: 20px;
+    width: 100%;
+    text-align: left;
     position: relative;
 
     &::after {
@@ -174,5 +193,18 @@ function updateSearch() {
 
 .--submit {
   margin-top: 50px;
+}
+@media screen and (max-width: 750px) {
+  #search {
+    padding: 50px 20px;
+    #search-form {
+      flex-direction: column;
+      align-items: center;
+
+      .--block {
+        width: 100%;
+      }
+    }
+  }
 }
 </style>

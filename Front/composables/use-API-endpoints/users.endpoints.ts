@@ -1,4 +1,5 @@
 import { User } from '@/assets/ts/classes/user'
+import { AlertModes } from '~~/assets/ts/enums/store'
 
 export type TRegisterUserPayload = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey'> & {
   profileData: IUserProfile
@@ -23,7 +24,8 @@ export class UsersEndpoints {
         idMask,
         xmtpPublicAddress,
         xmtpCryptedPrivateKey
-      }
+      },
+      alert: { mode: AlertModes.ALL, successMsg: 'You sucessfuly registered' }
     })
 
     if (!data || error) return { data: null, error }
@@ -107,7 +109,10 @@ export class UsersEndpoints {
     const idMask = useSessionStore().getIdMask()
     if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
 
-    const { data, error } = await useRequest().patch<IUser>(UsersEndpoints.path + '/profile?id-mask=' + idMask, { body: payload })
+    const { data, error } = await useRequest().patch<IUser>(UsersEndpoints.path + '/profile?id-mask=' + idMask, {
+      body: payload,
+      alert: { mode: AlertModes.ALL, successMsg: 'Profile successfuly updated' }
+    })
 
     if (!data || error) return { data: null, error }
 
@@ -122,7 +127,10 @@ export class UsersEndpoints {
     const idMask = useSessionStore().getIdMask()
     if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
 
-    const { data, error } = await useRequest().patch<IUser>(UsersEndpoints.path + '/search?id-mask=' + idMask, { body: payload })
+    const { data, error } = await useRequest().patch<IUser>(UsersEndpoints.path + '/search?id-mask=' + idMask, {
+      body: payload,
+      alert: { mode: AlertModes.ALL, successMsg: 'Criterias sucessfuly updated' }
+    })
 
     if (!data || error) return { data: null, error }
 
@@ -138,7 +146,10 @@ export class UsersEndpoints {
     if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
 
     const { data, error } = await useRequest().patch<boolean>(
-      UsersEndpoints.path + `/xmtp-crypted-private-key?id-mask=${idMask}&crypted-key=${newCryptedKey}&public-address=${publicAddress}`
+      UsersEndpoints.path + `/xmtp-crypted-private-key?id-mask=${idMask}&crypted-key=${newCryptedKey}&public-address=${publicAddress}`,
+      {
+        alert: { mode: AlertModes.ALL, successMsg: 'Data sucessfuly updated' }
+      }
     )
 
     if (data === null || error) return { data: null, error }

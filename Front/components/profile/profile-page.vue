@@ -1,5 +1,10 @@
 <template>
   <section id="profile" class="--page">
+    <div v-if="isUpdatePage" class="btn-wrapper">
+      <NuxtLink to="/profile/criterias" class="link">
+        <v-btn>search criterias</v-btn>
+      </NuxtLink>
+    </div>
     <h1 class="main-title text-h4 text-white">{{ isUpdatePage ? 'My Profile' : 'Create Account' }}</h1>
 
     <section id="profile-form">
@@ -324,11 +329,23 @@ async function registerUser() {
 
 <style lang="scss" scoped>
 #profile {
-  padding: 50px 20px;
+  padding: 50px 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .btn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    margin-bottom: 50px;
+
+    .link {
+      display: block;
+      width: fit-content;
+    }
+  }
 
   .main-title {
     margin-bottom: 50px;
@@ -352,7 +369,7 @@ async function registerUser() {
     justify-content: center;
     align-items: flex-start;
     gap: 25px;
-    width: clamp(200px, 800px, 90vw);
+    width: 100%;
 
     .--block {
       width: 50%;
@@ -408,6 +425,7 @@ async function registerUser() {
 
 @media screen and (max-width: 750px) {
   #profile {
+    padding: 50px 20px;
     #profile-form {
       flex-direction: column;
       align-items: center;

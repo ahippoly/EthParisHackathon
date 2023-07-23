@@ -1,6 +1,7 @@
 <template>
   <section class="bg-black">
     <session-manager />
+    <user-alert />
 
     <NuxtPage />
 
