@@ -3,9 +3,6 @@ import { getWalletClient, WalletClient } from '@wagmi/core'
 
 export function walletClientToSigner(walletClient: WalletClient) {
   const { account, chain, transport } = walletClient
-  console.log('🚀 ~ file: walletClientToSigner.ts:6 ~ walletClientToSigner ~ transport:', transport)
-  console.log('🚀 ~ file: walletClientToSigner.ts:6 ~ walletClientToSigner ~ chain:', chain)
-  console.log('🚀 ~ file: walletClientToSigner.ts:6 ~ walletClientToSigner ~ account:', account)
 
   const network = {
     chainId: chain.id,

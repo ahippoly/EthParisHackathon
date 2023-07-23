@@ -47,13 +47,6 @@ export class UsersEndpoints {
   }
 
   static async logIn(idMask: string): Promise<IRequestResult<User>> {
-    if (useSessionStore().getIdMask() === idMask) {
-      const currentUser = useSessionStore().getUser()
-
-      if (!currentUser) return UsersEndpoints.getProfile()
-      else return { data: currentUser, error: null }
-    }
-
     useSessionStore().setIdMask(idMask)
     return UsersEndpoints.getProfile()
   }
@@ -62,7 +55,7 @@ export class UsersEndpoints {
     const idMask = useSessionStore().getIdMask()
     if (!idMask) return { data: null, error: { status: 400, message: 'No idMask' } }
 
-    const { data, error } = await useRequest().get<IUser>(UsersEndpoints.path + '/by-id-mask?id-mask=' + idMask)
+    const { data, error } = await useRequest().get<IUser>(UsersEndpoints.path + '/by-id-mask?id-mask=' + idMask, { alert: { mode: AlertModes.NONE } })
 
     if (!data || error) return { data: null, error }
 

@@ -27,23 +27,11 @@ export const listenAndProcessNewMessageInConversation = async (conversation: Con
   const existingMessages = await getMessagesFromConversation(conversation)
   messageListToFeed.value = existingMessages
 
-  console.log('begin listen new messages')
-
   messageListenerActiveByConversation[conversation.peerAddress] = true
 
   for await (const message of await conversation.streamMessages()) {
-    // if (message.senderAddress === conversation.clientAddress) {
-    //   // This message was sent from me
-    //   continue
-    // }
-
-    console.log('message received = ', message)
-    // if (messageListenerActiveByConversation[conversation.peerAddress] === false) break
-
     messageListToFeed.value.push(message)
   }
-
-  console.log('end of listening new messages')
 }
 
 export const listAllMessageInConversation = async (client: Client, conversation: Conversation): Promise<DecodedMessage[]> => {
@@ -60,7 +48,6 @@ export const listenAndProcessNewConversation = async (client: Client, conversati
   const stream = await client.conversations.stream()
   isListeningNewConversation = true
   for await (const conversation of stream) {
-    console.log(`New conversation started with ${conversation.peerAddress}`)
     conversationListToFeed.value.push(conversation)
     if (!isListeningNewConversation) break
   }
@@ -81,8 +68,7 @@ export const stopListeningMessageForAllConversation = () => {
 }
 
 export const sendMessage = async (conversation: Conversation, message: string) => {
-  const messageDecoded = await conversation.send(message)
-  console.log('messagze = ', messageDecoded)
+  await conversation.send(message)
 }
 
 export const createClient = async (wallet: Signer): Promise<Client> => {
