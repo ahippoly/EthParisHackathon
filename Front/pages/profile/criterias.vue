@@ -1,11 +1,6 @@
 <template>
-  <section id="search-criterias" class="--page">
-    <div class="btn-wrapper">
-      <NuxtLink to="/profile" class="link">
-        <v-btn>go to profile</v-btn>
-      </NuxtLink>
-    </div>
-    <h1 class="main-title text-h4">My Search Criterias</h1>
+  <section id="search-criterias" class="h-screen">
+    <h1 class="text-h4">My Search Criterias</h1>
 
     <section id="search-criterias-form">
       <!-- MINIUM BALANCE -->
@@ -131,20 +126,8 @@ function updateSearch() {
   padding: 50px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-
-  .btn-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: left;
-    margin-bottom: 50px;
-
-    .link {
-      display: block;
-      width: fit-content;
-    }
-  }
 
   .main-title {
     margin-bottom: 50px;
@@ -168,7 +151,6 @@ function updateSearch() {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 25px;
     width: clamp(200px, 800px, 90vw);
 
     .--group {
@@ -180,7 +162,6 @@ function updateSearch() {
       }
 
       & + .--group {
-        margin-top: 20px;
         position: relative;
       }
     }
