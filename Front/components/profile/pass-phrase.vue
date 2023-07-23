@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="passPhraseDialogOpened" persistent>
+  <v-dialog v-model="isOpened">
     <v-card>
       <v-card-text class="pass-phrase-section">
         <h2>Pass phrase</h2>
@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import { ethers } from 'ethers'
+import { InputVariants } from '~~/assets/ts/enums/style'
 import { decryptKey } from '~~/modules/ethers/keyEncrypter'
 
 const passPhraseErrorMessage = ref<string>('')
@@ -37,6 +38,15 @@ const props = defineProps({
   }
 })
 
+const isOpened = ref<boolean>(true)
+
+watch(
+  () => props.isOpened,
+  () => {
+    isOpened.value = props.isOpened
+  }
+)
+
 const verifyKey = () => {
   try {
     const cryptedKey = useSessionStore().getUser()?.xmtpCryptedPrivateKey
@@ -48,6 +58,8 @@ const verifyKey = () => {
     passPhraseErrorMessage.value = 'Decrypted key is not assigned to a wallet, your pass phrase may be wrong'
   }
 }
+
+const passPhraseHasError = () => {}
 </script>
 
 <style lang="scss" scoped></style>

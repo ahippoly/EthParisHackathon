@@ -4,10 +4,10 @@
     <input v-model="walletNum" />
     <v-btn @click="connectXMTPClient"> Connect </v-btn>
     <p>logged client = {{ client?.address }}</p>
+    <pass-phrase :is-opened="!decryptedKey"></pass-phrase>
 
     <chat-page v-if="chatPageId && client" :user-id="chatPageId" :client="client"></chat-page>
     <conversation-list-page v-else-if="client" :client="client" @go-to-chat-page="updateChatPage"></conversation-list-page>
-    <pass-phrase :is-opened="!decryptedKey"></pass-phrase>
   </section>
 </template>
 

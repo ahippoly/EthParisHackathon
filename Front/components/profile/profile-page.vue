@@ -136,7 +136,7 @@
     <!-- SUBMIT -->
     <v-btn v-if="isUpdatePage" class="--submit" variant="elevated" @click="saveProfile()">Save profile</v-btn>
     <v-btn v-if="isUpdatePage" class="mt-4" variant="outlined" @click="logout()"> Logout </v-btn>
-    <v-btn v-else class="--submit" variant="elevated" @click="register()">Register</v-btn>
+    <v-btn v-else class="--submit" variant="elevated" @click="preValidResgister()">Register</v-btn>
     <v-dialog v-model="passPhraseDialogOpened">
       <v-card>
         <v-card-text class="pass-phrase-section">
@@ -268,10 +268,13 @@ const errors = reactive<Record<keyof TProfileFormData, { message: string; valida
 /* >==== SAVE & UPDATE METHODS ====> */
 function register() {
   if (!preCheckProfile()) return
-
   if (passPhraseHasError()) return
-  passPhraseDialogOpened.value = true
   registerUser()
+}
+
+function preValidResgister() {
+  if (!preCheckProfile()) return
+  passPhraseDialogOpened.value = true
 }
 
 function saveProfile() {
@@ -284,8 +287,9 @@ function passPhraseHasError() {
   passPhraseErrorMessage.value = ''
   if (passPhrase.value.length < 8) {
     passPhraseErrorMessage.value = 'your pass phrase need to have at least 8 characters'
-    return false
+    return true
   }
+  return false
 }
 
 function preCheckProfile() {
