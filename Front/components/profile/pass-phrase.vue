@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpened">
+  <v-dialog v-model="isOpened" persistent>
     <v-card>
       <v-card-text class="pass-phrase-section">
         <h2>Pass phrase</h2>
@@ -31,6 +31,8 @@ import { decryptKey } from '~~/modules/ethers/keyEncrypter'
 const passPhraseErrorMessage = ref<string>('')
 const passPhrase = ref<string>('')
 
+const emits = defineEmits(['walletCreated'])
+
 const props = defineProps({
   isOpened: {
     type: Boolean,
@@ -38,7 +40,7 @@ const props = defineProps({
   }
 })
 
-const isOpened = ref<boolean>(true)
+const isOpened = ref<boolean>(props.isOpened)
 
 watch(
   () => props.isOpened,
@@ -49,12 +51,19 @@ watch(
 
 const verifyKey = () => {
   try {
-    const cryptedKey = useSessionStore().getUser()?.xmtpCryptedPrivateKey
+    const user = useSessionStore().getUser()
+    console.log('🚀 ~ file: pass-phrase.vue:53 ~ verifyKey ~ user:', user)
+    const cryptedKey = user?.xmtpCryptedPrivateKey
+    console.log('🚀 ~ file: pass-phrase.vue:53 ~ verifyKey ~ cryptedKey:', cryptedKey)
     if (!cryptedKey) throw new Error('no cryptedKey')
     const wallet = new ethers.Wallet(decryptKey(cryptedKey, passPhrase.value))
+    console.log('🚀 ~ file: pass-phrase.vue:56 ~ verifyKey ~ wallet:', wallet)
+    emits('walletCreated', wallet)
+    isOpened.value = false
     const privateKey = wallet.privateKey
     useKeyDecrypt().setDecryptedKey(privateKey)
   } catch (err) {
+    console.log('🚀 ~ file: pass-phrase.vue:59 ~ verifyKey ~ err:', err)
     passPhraseErrorMessage.value = 'Decrypted key is not assigned to a wallet, your pass phrase may be wrong'
   }
 }

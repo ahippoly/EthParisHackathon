@@ -14,9 +14,6 @@ export const useKeyDecrypt = defineStore({
   id: 'decryptKey',
   state: () => storedData,
   actions: {
-    async decryptKey(secretPhrase: string, cryptedPrivateKey: string) {
-      this.decryptedKey = await decryptKey(cryptedPrivateKey, secretPhrase)
-    },
     setDecryptedKey(key: string) {
       this.decryptedKey = key
     },

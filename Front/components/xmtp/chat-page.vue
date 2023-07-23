@@ -1,5 +1,6 @@
 <template>
   <section class="d-flex flex-column">
+    <v-icon icon="mdi-arrow-left" @click="emits('goBack')"></v-icon>
     <h3 class="title-h3 text-center mt-4">Chating with {{ peerUser?.name }}</h3>
     <p class="text-caption text-center ma-2">{{ peerUser?.xmtpPublicAddress }}</p>
     <section>
@@ -8,7 +9,14 @@
       </div>
       <p v-if="messages.length === 0" class="no-message-yet">Say hello 👋 !</p>
 
-      <v-card class="ma-2 " v-for="message in messages" :key="message.id" :subtitle="peerUser?.name" :text="message?.content" variant="tonal" />
+      <v-card
+        v-for="message in messages"
+        :key="message.id"
+        class="ma-2 "
+        :subtitle="message.senderAddress"
+        :text="message?.content"
+        variant="tonal"
+      />
     </section>
     <div class="send-message">
       <v-textarea v-model="writedMessage" auto-grow rows="1" label="Send message" append-icon="mdi-send"></v-textarea>
@@ -31,6 +39,8 @@ const peerUser = ref<IUser>()
 const messages = ref<DecodedMessage[]>([])
 const isLoading = ref<boolean>(false)
 let conversation: Conversation | undefined
+
+const emits = defineEmits(['goBack'])
 
 const props = defineProps({
   userId: {

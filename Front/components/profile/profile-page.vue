@@ -171,6 +171,7 @@
 import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-datas'
 import { InputVariants } from '@/assets/ts/enums/style'
 import { createUserWallet, encryptPrivateKey } from '@/modules/ethers/ethersUtilsForXMTP'
+import { encryptKey } from '~~/modules/ethers/keyEncrypter'
 
 definePageMeta({ middleware: ['is-logged-in'] })
 
@@ -182,6 +183,7 @@ defineProps({
     default: true
   }
 })
+console.log('user = ', useSessionStore().getUser())
 
 async function logout() {
   await useSessionStore().logOut()
@@ -321,7 +323,7 @@ async function registerUser() {
   if (!idMask) return
 
   const newWallet = createUserWallet()
-  const cryptedPrivateKey = encryptPrivateKey(newWallet.privateKey, passPhrase.value)
+  const cryptedPrivateKey = encryptKey(newWallet.privateKey, passPhrase.value)
 
   const res = await useAPI().users.register(idMask, newWallet.address, cryptedPrivateKey, {
     name,

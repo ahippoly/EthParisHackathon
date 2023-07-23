@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-definePageMeta({ middleware: ['has-user'] })
+// definePageMeta({ middleware: ['has-user'] })
 
 function sismoConnect() {
   useAPI().sismo.connect()
