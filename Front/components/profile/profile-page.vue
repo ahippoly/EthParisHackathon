@@ -1,10 +1,5 @@
 <template>
   <section id="profile" class="--page">
-    <div v-if="isUpdatePage" class="btn-wrapper">
-      <NuxtLink to="/profile/criterias" class="link">
-        <v-btn>search criterias</v-btn>
-      </NuxtLink>
-    </div>
     <h1 class="main-title text-h4 text-white">{{ isUpdatePage ? 'My Profile' : 'Create Account' }}</h1>
 
     <section id="profile-form">
@@ -340,18 +335,6 @@ async function registerUser() {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  .btn-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: right;
-    margin-bottom: 50px;
-
-    .link {
-      display: block;
-      width: fit-content;
-    }
-  }
 
   .main-title {
     margin-bottom: 40px;
