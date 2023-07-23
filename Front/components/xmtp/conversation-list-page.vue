@@ -6,7 +6,7 @@
       <v-progress-circular indeterminate :size="115" :width="5"></v-progress-circular>
     </div>
 
-    <v-card class="ma-2 text-primary" v-for="peerUser in peerUsers" :key="peerUser._id" @click="goToChatPage(peerUser._id)" variant="outlined">
+    <v-card v-for="peerUser in peerUsers" :key="peerUser.id" class="ma-2 text-primary" variant="outlined" @click="goToChatPage(peerUser.id)">
       <v-card-item>
         <div>
           <div class="text-h6 mb-1">
@@ -24,10 +24,10 @@ definePageMeta({ middleware: ['is-logged-in-and-has-complete-profile'] })
 
 import { Client, Conversation } from '@xmtp/xmtp-js'
 import { fetchConversationList, stopListeningMessageForAllConversation } from '@/modules/xmtp/xmtpUtils'
-import { relevantUsers } from '@/assets/constants/mock/users.mock'
+import { User } from '~~/assets/ts/classes/user'
 
 const conversations = ref<Conversation[]>([])
-const peerUsers = ref<IUser[]>([])
+const peerUsers = ref<User[]>([])
 const isLoading = ref<boolean>(false)
 
 const props = defineProps({
@@ -47,16 +47,17 @@ onBeforeUnmount(() => {
   stopListeningMessageForAllConversation()
 })
 
-const getUserByXTMPPublicAdresses = async (): Promise<IUser[]> => {
-  //mocked implementation
-  return relevantUsers
+const getUserByXTMPPublicAdresses = async (publicAdresses: string[]) => {
+  const usersRes = await useAPI().users.getAllUsersByXmtpAddress(publicAdresses)
+  if (!usersRes.data) return
+  peerUsers.value = usersRes.data
 }
 
 const getConversations = async () => {
   if (!props.client) return
   isLoading.value = true
   conversations.value = await fetchConversationList(props.client)
-  peerUsers.value = await getUserByXTMPPublicAdresses()
+  await getUserByXTMPPublicAdresses(conversations.value.map((conversation) => conversation.peerAddress))
   isLoading.value = false
   //   console.log('peer User = ', peerUsers.value)
 }

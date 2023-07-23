@@ -13,7 +13,7 @@
         v-for="message in messages"
         :key="message.id"
         class="ma-2 "
-        :subtitle="message.senderAddress"
+        :subtitle="message.senderAddress === client.address ? 'Me' : peerUser?.name"
         :text="message?.content"
         variant="tonal"
       />
@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import { relevantUsers } from '@/assets/constants/mock/users.mock'
 import { Client, Conversation, DecodedMessage } from '@xmtp/xmtp-js'
 import {
   getConversation,
@@ -33,9 +32,10 @@ import {
   sendMessage,
   stopListeningMessageForAllConversation
 } from '@/modules/xmtp/xmtpUtils'
+import { User } from '~~/assets/ts/classes/user'
 
 const writedMessage = ref<string>('')
-const peerUser = ref<IUser>()
+const peerUser = ref<User>()
 const messages = ref<DecodedMessage[]>([])
 const isLoading = ref<boolean>(false)
 let conversation: Conversation | undefined
@@ -68,15 +68,19 @@ watch(
   () => props.userId,
   async () => {
     await getUserById(props.userId)
-    getMessages()
   },
   { immediate: true }
 )
 
 async function getUserById(userId: string) {
-  //mockedImpementation
-  console.log('userId= ', userId)
-  peerUser.value = relevantUsers.find((user) => user._id === userId)
+  isLoading.value = true
+  const peerRes = await useAPI().users.getUserById(userId)
+  isLoading.value = false
+  console.log('🚀 ~ file: chat-page.vue:78 ~ getUserById ~ peerRes:', peerRes)
+  if (!peerRes.data) return
+
+  peerUser.value = peerRes.data
+  getMessages()
 }
 
 onBeforeUnmount(() => {
@@ -85,7 +89,6 @@ onBeforeUnmount(() => {
 
 const getMessages = async () => {
   if (!props.client || !peerUser.value) return
-
   isLoading.value = true
   conversation = await getConversation(props.client, peerUser.value.xmtpPublicAddress)
   isLoading.value = false
