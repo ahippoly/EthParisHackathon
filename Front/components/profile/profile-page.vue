@@ -135,6 +135,7 @@
 
     <!-- SUBMIT -->
     <v-btn v-if="isUpdatePage" class="--submit" variant="elevated" @click="saveProfile()">Save profile</v-btn>
+    <v-btn v-if="isUpdatePage" class="mt-4" variant="outlined" @click="logout()"> Logout </v-btn>
     <v-btn v-else class="--submit" variant="elevated" @click="register()">Register</v-btn>
     <v-dialog v-model="passPhraseDialogOpened">
       <v-card>
@@ -181,6 +182,11 @@ defineProps({
     default: true
   }
 })
+
+async function logout() {
+  await useSessionStore().logOut()
+  await useRouter().push('/')
+}
 
 const user = useSessionStore().getUser()
 const passPhraseDialogOpened = ref<boolean>(false)
@@ -348,7 +354,7 @@ async function registerUser() {
   }
 
   .main-title {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     padding-bottom: 20px;
     width: 100%;
     text-align: left;
@@ -395,7 +401,6 @@ async function registerUser() {
         }
 
         & + .--group {
-          margin-top: 45px;
           position: relative;
         }
       }
