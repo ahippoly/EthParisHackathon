@@ -7,6 +7,10 @@ export class SearchDataRequest {
   minimumBalance?: number
 
   @IsOptional()
+  @Min(0, { message: 'The minimum followers must be a positive number' })
+  minimumFollowers?: number
+
+  @IsOptional()
   @IsEnum(Countries, { message: `Invalid country value. (possible values: ${Object.values(Countries).join(' | ')})` })
   country?: Countries
 

@@ -63,7 +63,15 @@ export class UsersController {
 
   @Patch('search')
   public async updateSearch(@Query('id-mask') idMask: string, @Body() request: SearchDataRequest): Promise<User> {
-    return await this.usersService.updateSearch(idMask, request.minimumBalance, request.country, request.langs, request.interests, request.skills)
+    return await this.usersService.updateSearch(
+      idMask,
+      request.minimumBalance,
+      request.country,
+      request.langs,
+      request.interests,
+      request.skills,
+      request.minimumFollowers
+    )
   }
 
   @Patch('xmtp-crypted-private-key')

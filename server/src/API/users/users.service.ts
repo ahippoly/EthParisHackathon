@@ -68,11 +68,12 @@ export class UsersService {
     country: Countries | undefined,
     langs: Langs[],
     interests: Interests[],
-    skills: Skills[]
+    skills: Skills[],
+    minimumFollowers: number | undefined
   ): Promise<User> {
     const user = await this.getUserByIdMask(idMask)
 
-    user.search = UserSearch.of(minimumBalance, country, langs, interests, skills)
+    user.search = UserSearch.of(minimumBalance, country, langs, interests, skills, minimumFollowers)
 
     this.userRepository.updateAsIs(user)
 
@@ -107,7 +108,7 @@ export class UsersService {
   public async getRelevantMatches(idMask: string): Promise<User[]> {
     const userSearching = await this.getUserByIdMask(idMask)
 
-    const { /* minimumBalance,  */ country, langs, interests, skills } = userSearching.search
+    const { minimumBalance, country, langs, interests, skills, minimumFollowers } = userSearching.search
 
     const query: TDocumentMongoFilterQuery<UserBlueprint> = { _id: { $ne: userSearching._id } }
 
@@ -115,6 +116,8 @@ export class UsersService {
     if (langs && langs.length) query['_profile._langs'] = { $in: langs }
     if (skills && skills.length) query['_profile._skills'] = { $in: skills }
     if (interests && interests.length) query['_profile._interests'] = { $in: interests }
+    if (minimumBalance) query['_balance'] = { $gte: minimumBalance }
+    if (minimumFollowers) query['_followers'] = { $gte: minimumFollowers }
 
     const relevantUsers = await this.userRepository.findMany(query).getOr([])
 
