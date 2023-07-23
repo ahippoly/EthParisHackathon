@@ -3,6 +3,7 @@
 # Env files
 **/*.env*
 !.example.env
+!.development.env
 
 # compiled output
 /dist

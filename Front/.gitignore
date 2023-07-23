@@ -3,6 +3,7 @@
 # Env files
 **/*.env*
 !.exemple.env
+!.development.env
 
 # compiled output
 /.nuxt
