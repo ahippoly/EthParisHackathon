@@ -24,8 +24,8 @@ export class SismoService {
   }
 
   public async verifyResponse(res: SismoConnectResponse): Promise<IVerifyResponse> {
-    const polygonUSDCHolders: ClaimRequest = {
-      groupId: '0x94cfd1337f2c6ee17821d9382467d2c8',
+    const USDHolders: ClaimRequest = {
+      groupId: '0xf14e34185a6c9e9d83b5ce146a5b2b6f',
       claimType: ClaimType.GTE,
       isOptional: true,
       isSelectableByUser: true,
@@ -40,12 +40,12 @@ export class SismoService {
 
     const result: SismoConnectVerifiedResult = await this.sismoConnect.verify(res, {
       auths: [{ authType: AuthType.VAULT }],
-      claims: [polygonUSDCHolders, twitterFollowers],
+      claims: [USDHolders, twitterFollowers],
     })
 
     const vaultId = result.getUserId(AuthType.VAULT)
 
-    const balance = result.claims.find((claim) => claim.groupId == '0x94cfd1337f2c6ee17821d9382467d2c8')?.value
+    const balance = result.claims.find((claim) => claim.groupId == '0xf14e34185a6c9e9d83b5ce146a5b2b6f')?.value
 
     const followers = result.claims.find((claim) => claim.groupId == '0x2e321327f0de5b1b58d90d0657834d2d')?.value
 

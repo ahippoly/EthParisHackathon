@@ -13,8 +13,8 @@ const config: SismoConnectConfig = { appId }
 
 const sismoConnect = SismoConnect({ config })
 
-const polygonUSDCHolders: ClaimRequest = {
-  groupId: '0x94cfd1337f2c6ee17821d9382467d2c8',
+const USDHolders: ClaimRequest = {
+  groupId: '0xf14e34185a6c9e9d83b5ce146a5b2b6f',
   claimType: ClaimType.GTE,
   isOptional: true,
   isSelectableByUser: true
@@ -31,7 +31,7 @@ export class SismoEndpoints {
   public static async connect() {
     sismoConnect.request({
       auths: [{ authType: AuthType.VAULT }],
-      claims: [polygonUSDCHolders, twitterFollowers]
+      claims: [USDHolders, twitterFollowers]
     })
   }
 
