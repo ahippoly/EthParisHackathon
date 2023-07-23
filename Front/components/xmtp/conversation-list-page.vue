@@ -59,7 +59,6 @@ const getConversations = async () => {
   conversations.value = await fetchConversationList(props.client)
   await getUserByXTMPPublicAdresses(conversations.value.map((conversation) => conversation.peerAddress))
   isLoading.value = false
-  //   console.log('peer User = ', peerUsers.value)
 }
 
 const goToChatPage = (id: string) => {

@@ -162,13 +162,12 @@ definePageMeta({ middleware: ['is-logged-in'] })
 type TProfileFormData = Omit<IUser, '_id' | 'profile' | 'search' | 'xmtpPublicAddress' | 'xmtpCryptedPrivateKey' | 'balance' | 'followers'> &
   IUserProfile
 
-defineProps({
+const props = defineProps({
   isUpdatePage: {
     type: Boolean,
     default: true
   }
 })
-console.log('user = ', useSessionStore().getUser())
 
 async function logout() {
   await useSessionStore().logOut()
@@ -182,14 +181,14 @@ const passPhraseErrorMessage = ref('')
 
 /* >==== INPUTS VALUE ====> */
 const profileFormData = reactive<TProfileFormData>({
-  name: user?.name || '',
-  description: user?.description || '',
-  goals: user?.goals || [],
-  country: user?.profile?.country || ('' as Countries),
-  langs: user?.profile?.langs || [],
-  interests: user?.profile?.interests || [],
-  skills: user?.profile?.skills || [],
-  openOnlyToThoseMatchingSearch: user?.openOnlyToThoseMatchingSearch || false
+  name: (props.isUpdatePage && user?.name) || '',
+  description: (props.isUpdatePage && user?.description) || '',
+  goals: (props.isUpdatePage && user?.goals) || [],
+  country: (props.isUpdatePage && user?.profile?.country) || ('' as Countries),
+  langs: (props.isUpdatePage && user?.profile?.langs) || [],
+  interests: (props.isUpdatePage && user?.profile?.interests) || [],
+  skills: (props.isUpdatePage && user?.profile?.skills) || [],
+  openOnlyToThoseMatchingSearch: (props.isUpdatePage && user?.openOnlyToThoseMatchingSearch) || false
 })
 
 /* >==== INPUTS ERROR MANAGEMENT ====> */

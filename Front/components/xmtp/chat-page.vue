@@ -57,7 +57,6 @@ onMounted(() => {
   const sendButton = document.querySelector('.v-input__append')
 
   sendButton?.addEventListener('click', async () => {
-    console.log('button clicked')
     if (!conversation) return
     await sendMessage(conversation, writedMessage.value)
     writedMessage.value = ''
@@ -76,7 +75,6 @@ async function getUserById(userId: string) {
   isLoading.value = true
   const peerRes = await useAPI().users.getUserById(userId)
   isLoading.value = false
-  console.log('🚀 ~ file: chat-page.vue:78 ~ getUserById ~ peerRes:', peerRes)
   if (!peerRes.data) return
 
   peerUser.value = peerRes.data

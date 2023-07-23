@@ -29,8 +29,6 @@ onBeforeMount(async () => {
   }
 
   useSessionStore().setUser(profile.data)
-
-  console.log('user = ', profile.data)
 })
 
 const updateChatPage = (id: string) => {
@@ -42,6 +40,5 @@ const connectXMTPClient = async (wallet: Wallet) => {
 
   client.value = await Client.create(wallet)
   if (userId) chatPageId.value = userId as string
-  console.log('🚀 ~ file: index.vue:46 ~ connectXMTPClient ~ client.value:', client.value)
 }
 </script>

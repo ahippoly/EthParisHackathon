@@ -52,18 +52,14 @@ watch(
 const verifyKey = () => {
   try {
     const user = useSessionStore().getUser()
-    console.log('🚀 ~ file: pass-phrase.vue:53 ~ verifyKey ~ user:', user)
     const cryptedKey = user?.xmtpCryptedPrivateKey
-    console.log('🚀 ~ file: pass-phrase.vue:53 ~ verifyKey ~ cryptedKey:', cryptedKey)
     if (!cryptedKey) throw new Error('no cryptedKey')
     const wallet = new ethers.Wallet(decryptKey(cryptedKey, passPhrase.value))
-    console.log('🚀 ~ file: pass-phrase.vue:56 ~ verifyKey ~ wallet:', wallet)
     emits('walletCreated', wallet)
     isOpened.value = false
     const privateKey = wallet.privateKey
     useKeyDecrypt().setDecryptedKey(privateKey)
   } catch (err) {
-    console.log('🚀 ~ file: pass-phrase.vue:59 ~ verifyKey ~ err:', err)
     passPhraseErrorMessage.value = 'Decrypted key is not assigned to a wallet, your pass phrase may be wrong'
   }
 }

@@ -6,7 +6,7 @@ export default defineNuxtRouteMiddleware(() => {
     useSessionStore()
       .getUser()
       ?.hasCompletedHisProfile()
-  )
+  ) {
     return navigateTo('/chats')
-  else return navigateTo('/register')
+  } else return navigateTo('/register')
 })
