@@ -3,6 +3,11 @@ import { Countries, Interests, Langs, Skills } from '@/assets/ts/enums/meta-data
 export {}
 
 declare global {
+  interface IVerifyResponse {
+    vaultId?: string
+    balance?: number
+    followers?: number
+  }
   interface IUser {
     _id: string
     name: string
@@ -13,6 +18,8 @@ declare global {
     xmtpPublicAddress: string
     xmtpCryptedPrivateKey?: string
     openOnlyToThoseMatchingSearch: boolean
+    balance: number
+    followers: number
   }
 
   interface IUserProfile {

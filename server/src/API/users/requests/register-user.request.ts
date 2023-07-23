@@ -13,4 +13,10 @@ export class RegisterUserRequest extends UpdateUserRequest {
   @IsNotEmpty({ message: 'You must provide an xmtp crypted private key' })
   @Length(2, 200, { message: 'The xmtp crypted private key must be between 2 and 200 characters' })
   xmtpCryptedPrivateKey: string
+
+  @IsNotEmpty({ message: 'You must provide balance' })
+  balance: number
+
+  @IsNotEmpty({ message: 'You must provide a followers amount' })
+  followers: number
 }

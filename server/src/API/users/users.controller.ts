@@ -18,7 +18,9 @@ export class UsersController {
       request.name,
       request.description,
       request.goals,
-      request.profileData
+      request.profileData,
+      request.balance,
+      request.followers
     )
   }
 

@@ -16,12 +16,6 @@ const appId = '0x0953a6430e3f1a3e15ebaa4c898f6071'
 
 @Injectable()
 export class SismoService {
-  // private groupClaim: ClaimRequest = {
-  //   groupId,
-  //   value: 1,
-  //   claimType: ClaimType.GTE,
-  // }
-
   private config: SismoConnectConfig = { appId }
   private sismoConnect: SismoConnectServer
 
@@ -29,14 +23,36 @@ export class SismoService {
     this.sismoConnect = SismoConnect({ config: this.config })
   }
 
-  public async verifyResponse(res: SismoConnectResponse): Promise<string | undefined> {
+  public async verifyResponse(res: SismoConnectResponse): Promise<IVerifyResponse> {
+    const polygonUSDCHolders: ClaimRequest = {
+      groupId: '0x94cfd1337f2c6ee17821d9382467d2c8',
+      claimType: ClaimType.GTE,
+      isOptional: true,
+      isSelectableByUser: true,
+    }
+
+    const twitterFollowers: ClaimRequest = {
+      groupId: '0x2e321327f0de5b1b58d90d0657834d2d',
+      claimType: ClaimType.GTE,
+      isOptional: true,
+      isSelectableByUser: true,
+    }
+
     const result: SismoConnectVerifiedResult = await this.sismoConnect.verify(res, {
       auths: [{ authType: AuthType.VAULT }],
-      // claims: [this.groupClaim],
+      claims: [polygonUSDCHolders, twitterFollowers],
     })
 
     const vaultId = result.getUserId(AuthType.VAULT)
 
-    return vaultId
+    const balance = result.claims.find((claim) => claim.groupId == '0x94cfd1337f2c6ee17821d9382467d2c8')?.value
+
+    const followers = result.claims.find((claim) => claim.groupId == '0x2e321327f0de5b1b58d90d0657834d2d')?.value
+
+    return {
+      vaultId,
+      balance,
+      followers,
+    }
   }
 }

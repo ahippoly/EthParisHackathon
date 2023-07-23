@@ -9,4 +9,10 @@ declare global {
   >
 
   type TPojoOf<T extends object> = { [K in keyof T]?: T[K] }
+
+  interface IVerifyResponse {
+    vaultId?: string
+    balance?: number
+    followers?: number
+  }
 }

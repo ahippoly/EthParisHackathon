@@ -18,4 +18,6 @@ export abstract class UserBlueprint extends User {
   public _profile: UserProfile
   public _search: UserSearch
   public _openOnlyToThoseMatchingSearch: boolean
+  public _balance: number
+  public _followers: number
 }

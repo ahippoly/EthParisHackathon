@@ -11,6 +11,8 @@ export class User {
   private _xmtpPublicAddress = ''
   private _xmtpCryptedPrivateKey?: string
   private _openOnlyToThoseMatchingSearch = true
+  private _balance = 0
+  private _followers = 0
   /* eslint-enable prettier/prettier */
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -28,6 +30,8 @@ export class User {
     userInstance.setOpenToAllState(!user.openOnlyToThoseMatchingSearch)
     userInstance.setXmtpPublicAddress(user.xmtpPublicAddress)
     userInstance.setXmtpCryptedPrivateKey(user.xmtpCryptedPrivateKey)
+    userInstance.setBalance(user.balance)
+    userInstance.setFollowers(user.followers)
 
     return userInstance
   }
@@ -42,6 +46,8 @@ export class User {
     if (user._profile) userInstance.setProfile(UserProfile.fromRawUserProfile(user._profile as Record<string, unknown>))
     if (user._search) userInstance.setSearch(UserSearch.fromRawUserSearch(user._search as Record<string, unknown>))
     userInstance.setOpenToAllState(!user._openOnlyToThoseMatchingSearch as boolean)
+    userInstance.setBalance(user._balance as number)
+    userInstance.setFollowers(user._followers as number)
     userInstance.setXmtpPublicAddress(user._xmtpPublicAddress as string)
     userInstance.setXmtpCryptedPrivateKey(user._xmtpCryptedPrivateKey as string | undefined)
 
@@ -70,6 +76,12 @@ export class User {
   get openOnlyToThoseMatchingSearch(): boolean {
     return this._openOnlyToThoseMatchingSearch
   }
+  get balance(): number {
+    return this._balance
+  }
+  get followers(): number {
+    return this._followers
+  }
   get xmtpPublicAddress(): string {
     return this._xmtpPublicAddress
   }
@@ -93,6 +105,12 @@ export class User {
   }
   public setOpenToAllState(openToAll: boolean): void {
     this._openOnlyToThoseMatchingSearch = !openToAll
+  }
+  public setBalance(balance: number): void {
+    this._balance = balance
+  }
+  public setFollowers(followers: number): void {
+    this._followers = followers
   }
   public setXmtpPublicAddress(publicAddress: string): void {
     this._xmtpPublicAddress = publicAddress

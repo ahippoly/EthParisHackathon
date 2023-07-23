@@ -16,7 +16,9 @@ export class UsersService {
     name: string,
     description: string,
     goals: string[],
-    profileData: TUserProfile
+    profileData: TUserProfile,
+    balance: number,
+    followers: number
   ): Promise<User> {
     // check that all unique user data are available
     if (
@@ -29,7 +31,7 @@ export class UsersService {
       throw new ForbiddenException('Some unique user data are already taken')
     }
 
-    const newUser = User.of(idMask, xmtpPublicAddress, xmtpCryptedPrivateKey, name, description, goals, profileData)
+    const newUser = User.of(idMask, xmtpPublicAddress, xmtpCryptedPrivateKey, name, description, goals, profileData, balance, followers)
 
     const savedUser = await this.userRepository.create(newUser)
 

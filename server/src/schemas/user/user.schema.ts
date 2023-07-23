@@ -16,6 +16,8 @@ export class User extends TimestampedDBDocument {
   @prop({ required: false, _id: false })  @Expose({ name: 'profile' })  @Type(() => UserProfile)  protected _profile: UserProfile
   @prop({ required: false, _id: false })  @Expose({ name: 'search' })   @Type(() => UserSearch)   protected _search: UserSearch
   @prop({ required: true, _id: false })   @Expose({ name: 'openOnlyToThoseMatchingSearch' })      protected _openOnlyToThoseMatchingSearch: boolean
+  @prop({ required: true, _id: false })   @Expose({ name: 'balance' })                            protected _balance: number
+  @prop({ required: true, _id: false })   @Expose({ name: 'followers' })                          protected _followers: number
   /* eslint-enable prettier/prettier */
 
   /* >==== INIT ====> */
@@ -34,7 +36,9 @@ export class User extends TimestampedDBDocument {
     name: string,
     description: string,
     goals: string[],
-    profileData: TUserProfile
+    profileData: TUserProfile,
+    balance: number,
+    followers: number
   ): User {
     const user = new User()
 
@@ -44,6 +48,8 @@ export class User extends TimestampedDBDocument {
     user._name = name
     user._description = description
     user._goals = goals
+    user._balance = balance
+    user._followers = followers
 
     const { country, langs, interests, skills } = profileData
     user._profile = UserProfile.of(country, langs, interests, skills)
@@ -51,6 +57,21 @@ export class User extends TimestampedDBDocument {
     user._search = UserSearch.new()
 
     user._openOnlyToThoseMatchingSearch = true
+
+    return user
+  }
+
+  public static new(idMask: string): User {
+    const user = new User()
+
+    user._idMask = idMask
+    user._xmtpPublicAddress = ''
+    user._xmtpCryptedPrivateKey = ''
+    user._name = ''
+    user._description = ''
+    user._goals = []
+    user._balance = 0
+    user._followers = 0
 
     return user
   }
@@ -86,5 +107,11 @@ export class User extends TimestampedDBDocument {
   
   public get openOnlyToThoseMatchingSearch()                                        : boolean       { return this._openOnlyToThoseMatchingSearch                            }
   public set openOnlyToThoseMatchingSearch(openOnlyToThoseMatchingSearch: boolean)                  { this._openOnlyToThoseMatchingSearch = openOnlyToThoseMatchingSearch   }
+
+  public get balance()                                        : number       { return this._balance                            }
+  public set balance(balance: number)                  { this._balance = balance   }
+
+  public get followers()                                        : number       { return this._followers                            }
+  public set followers(followers: number)                  { this._followers = followers   }
   /* eslint-enable prettier/prettier */
 }

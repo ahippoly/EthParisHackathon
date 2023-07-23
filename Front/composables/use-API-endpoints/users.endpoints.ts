@@ -17,13 +17,16 @@ export class UsersEndpoints {
     xmtpCryptedPrivateKey: string,
     user: TRegisterUserPayload
   ): Promise<IRequestResult<User>> {
+    const sismoResponse: IVerifyResponse | null = useSessionStore().getSismoResponse()
     // register to api
     const { data, error } = await useRequest().post<IUser>(UsersEndpoints.path, {
       body: {
         ...user,
         idMask,
         xmtpPublicAddress,
-        xmtpCryptedPrivateKey
+        xmtpCryptedPrivateKey,
+        balance: sismoResponse?.balance || 0,
+        followers: sismoResponse?.followers || 0
       },
       alert: { mode: AlertModes.ALL, successMsg: 'You sucessfuly registered' }
     })

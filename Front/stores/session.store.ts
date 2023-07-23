@@ -5,11 +5,13 @@ import { User } from '@/assets/ts/classes/user'
 export interface ISessionStore {
   user: User | null
   idMask: string | null
+  sismoResponse: IVerifyResponse | null
 }
 
 const storedData: ISessionStore = {
   user: null,
-  idMask: null
+  idMask: null,
+  sismoResponse: null
 }
 
 export const useSessionStore = defineStore({
@@ -31,6 +33,12 @@ export const useSessionStore = defineStore({
     },
     getIdMask() {
       return this.idMask
+    },
+    setSismoResponse(sismoResponse: IVerifyResponse) {
+      this.sismoResponse = sismoResponse
+    },
+    getSismoResponse() {
+      return this.sismoResponse
     },
     logOut() {
       this.user = null
